@@ -8,6 +8,7 @@ public class InitSortTest {
 
 }
 class Parent{
+	
 	{
 		System.out.println("执行 parent 初始化块...");
 	}
