@@ -1,5 +1,8 @@
 package com.xqh.iterator;
 
+import com.alibaba.fastjson.JSON;
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,14 +31,64 @@ public class IteratorTest {
 //		Map<String,String> map=new HashMap<>();
 		
 		
-		List<Integer> ilist=new ArrayList<>();
-		putList(ilist,100,20);
-		
-		List<Integer> tmp=ilist.stream().filter(i-> i<60).collect(Collectors.toList());
-		System.out.println(tmp.size());
-		
-		Stream.iterate(100, item -> item-1).limit(100).forEach(System.out::println);
-		
+//		List<Integer> ilist=new ArrayList<>();
+//		putList(ilist,100,20);
+//
+//		List<Integer> tmp=ilist.stream().filter(i-> i<60).collect(Collectors.toList());
+//		System.out.println(tmp.size());
+//
+//		Stream.iterate(100, item -> item-1).limit(100).forEach(System.out::println);
+        List<DemoEntity> demoList=new ArrayList<>();
+        demoList.add(getDemoEntity("abc",12));
+		demoList.add(getDemoEntity("qq",35));
+		demoList.add(getDemoEntity("w",5));
+		demoList.add(getDemoEntity("ccc",8));
+		demoList.add(getDemoEntity("abc",33));
+		demoList.add(getDemoEntity("ccc",69));
+		demoList.add(getDemoEntity("qq",1));
+        //返回一个新的List<DemoEntity>
+//		demoList.stream().map(d-> {
+//			DemoEntity demo=new DemoEntity();
+//			demo.setLevel(d.getLevel()+1);
+//			return demo;
+//		}).collect(Collectors.toList()).forEach(i->{
+//			System.out.println(JSON.toJSONString(i));
+//		});
+		//排序
+//		demoList.stream().sorted((a,b)->b.getName().compareTo(a.getName())).forEach(item->{
+//			System.out.println(JSON.toJSONString(item));
+//		});
+        //按name进行分组 返回Map<String,List<DemoEntity>>
+		System.out.println(JSON.toJSONString(demoList.stream().collect(Collectors.groupingBy(DemoEntity :: getName))));
+        demoList.stream().map(demo-> mapEntity(demo));
+
+
+	}
+
+	public static DemoEntity mapEntity(DemoEntity demo){
+		DemoEntity result=new DemoEntity();
+		result.setLevel(demo.getLevel()+1);
+		result.setName(demo.getName().toUpperCase());
+		return result;
+	}
+	public static DemoEntity getDemoEntity(String name){
+		DemoEntity demo=new DemoEntity();
+		demo.setName(name);
+		return demo;
+	}
+
+	public static DemoEntity getDemoEntity(String name,int level){
+		DemoEntity demo=new DemoEntity();
+		demo.setName(name);
+		demo.setLevel(level);
+		return demo;
+	}
+
+
+	public static DemoEntity getDemoEntity(int level){
+		DemoEntity demo=new DemoEntity();
+		demo.setLevel(level);
+		return demo;
 	}
 	
 	public static void putList(List<Integer> list,int max,int length){
