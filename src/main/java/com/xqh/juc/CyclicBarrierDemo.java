@@ -1,6 +1,5 @@
 package com.xqh.juc;
 
-import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -28,7 +27,7 @@ public class CyclicBarrierDemo {
             try {
                 /**
                  * 所有线程都在这里等待,知道所有士兵都集合完毕
-                 * 意味着CyclicBarrier完成一次计数
+                 * 意味着CyclicBarrier完成一次计数 (调用BarrierRun)
                  */
                 System.out.println(soldier+" 报道~~~~");
                 cyclic.await();
@@ -66,6 +65,7 @@ public class CyclicBarrierDemo {
                 System.out.println("司令[士兵"+N+"个,任务完成!]");
             }else{
                 System.out.println("司令[士兵"+N+"个,集合完成!]");
+                flag=true;
             }
         }
     }
@@ -77,9 +77,10 @@ public class CyclicBarrierDemo {
         CyclicBarrier cyclic=new CyclicBarrier(N,new BarrierRun(flag,N));
         //设置屏障点,主要是为了执行这个方法
         System.out.println("队伍集合!");
-        for(int i = 0;i<N;++i){
+        for(int i = 0;i<8;++i){
             allSoldier[i]=new Thread(new Soldier(cyclic,"士兵"+i));
             allSoldier[i].start();
+//            new Thread(new Soldier(cyclic,"士兵"+i)).start();
         }
 
     }
