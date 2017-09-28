@@ -1,4 +1,4 @@
-package com.xqh.juc;
+package com.xqh.juc.threadSafe;
 
 import java.util.HashMap;
 import java.util.Map;

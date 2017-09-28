@@ -1,4 +1,4 @@
-package com.xqh.juc;
+package com.xqh.juc.lock;
 
 import java.util.Random;
 import java.util.concurrent.locks.Lock;

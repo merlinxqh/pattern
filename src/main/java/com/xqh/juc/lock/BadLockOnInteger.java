@@ -1,6 +1,4 @@
-package com.xqh.juc;
-
-import java.util.concurrent.locks.ReentrantLock;
+package com.xqh.juc.lock;
 
 /**
  * Created by leo on 2017/9/16.

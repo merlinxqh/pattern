@@ -1,4 +1,4 @@
-package com.xqh.juc;
+package com.xqh.juc.interrupt;
 
 import java.util.concurrent.locks.LockSupport;
 

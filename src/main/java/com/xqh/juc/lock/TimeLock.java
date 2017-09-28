@@ -1,4 +1,4 @@
-package com.xqh.juc.reentrantLock;
+package com.xqh.juc.lock;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;

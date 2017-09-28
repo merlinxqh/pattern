@@ -1,11 +1,7 @@
 package com.xqh.juc.forkJoin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveTask;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Created by leo on 2017/9/23.
@@ -44,7 +40,6 @@ public class CountTask extends RecursiveTask<Long> {
                     lastOne=end;
                 }
                 CountTask subTask=new CountTask(pos,lastOne);
-                System.out.println("pos="+pos+" lastOne="+lastOne);
                 pos+=step+1;
                 subTasks.add(subTask);
                 subTask.fork();
@@ -63,6 +58,10 @@ public class CountTask extends RecursiveTask<Long> {
         try {
             long res=result.get();
             System.out.println("sum="+res);
+            Map<String,Object> map= Collections.synchronizedMap(new HashMap<>());
+            Map<String,Object> concurrentMap=new ConcurrentHashMap<>();
+            List<String> list=new CopyOnWriteArrayList<>();
+            new ConcurrentLinkedQueue<>();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

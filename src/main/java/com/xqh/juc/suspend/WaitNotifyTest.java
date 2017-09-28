@@ -1,4 +1,4 @@
-package com.xqh.juc;
+package com.xqh.juc.suspend;
 
 /**
  * Created by leo on 2017/9/14.
@@ -26,8 +26,10 @@ public class WaitNotifyTest {
                      * wait()和notify()都需要首先获得目标对象的监视器.
                      *
                      */
+                    Thread.sleep(2000);
                     //取得test的监视器
                     test.wait();//当前线程加入到该对象的 等待队列中 , 等待 当前对象的 notify()方法 调用 并随机从队列中选取 将其唤醒.
+                    Thread.sleep(2000);
                     //释放test的监视器
                     System.out.println(Thread.currentThread().getName()+" get notify...");
                 } catch (InterruptedException e) {
@@ -55,10 +57,15 @@ public class WaitNotifyTest {
         }
     }
 
-    public static void main(String[] args) {
-            WaitThread w=new WaitThread("wait thread");
-            w.start();
-            NotifyThread n=new NotifyThread();
-            n.start();
+    public static void main(String[] args) throws InterruptedException {
+        WaitThread w = new WaitThread("wait thread");
+        w.start();
+        WaitThread w2 = new WaitThread("wait thread 22222");
+        w2.start();
+
+        Thread.sleep(5000);
+        NotifyThread n = new NotifyThread();
+        n.start();
+
     }
 }

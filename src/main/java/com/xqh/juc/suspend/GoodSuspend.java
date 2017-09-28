@@ -1,4 +1,4 @@
-package com.xqh.juc;
+package com.xqh.juc.suspend;
 
 /**
  * Created by leo on 2017/9/15.

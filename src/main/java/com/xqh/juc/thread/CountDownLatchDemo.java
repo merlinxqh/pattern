@@ -1,4 +1,4 @@
-package com.xqh.juc;
+package com.xqh.juc.thread;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
