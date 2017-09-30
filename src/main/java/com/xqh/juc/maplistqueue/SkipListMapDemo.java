@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 /**
  * Created by leo on 2017/9/28.
  * 随机数据结构 调表 SkipListMap
+ * 方便数据检索
  */
 public class SkipListMapDemo {
     public static void main(String[] args) {
