@@ -11,6 +11,11 @@ public class AtomicFieldUpdaterDemo {
 
     public static class Candidate{
         int id;
+        /**
+         * 1. 变量不能设置为private
+         * 2. 变量必须是volatile类型
+         * 3. 由于CAS操作会通过对象实例中的偏移量直接进行赋值, 因此它 不支持static字段(Unsafe.objectFieldOffset()不支持静态变量)
+         */
         volatile int score;
     }
 
