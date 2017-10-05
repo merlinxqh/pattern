@@ -10,7 +10,14 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 public class LockFreeVector<E> {
     private static final int N_BUCKETS=30;
     private static final int FIRST_BUCKETS_SIZE=8;
+    /**
+     * 二位数组 内部存储
+     */
     private final AtomicReferenceArray<AtomicReferenceArray<E>> buckets;
+
+    /**
+     * 使用CAS操作写入数据
+     */
     private final AtomicReference<Descriptor<E>> descriptor;
 
 
@@ -23,17 +30,24 @@ public class LockFreeVector<E> {
     public void push_back(E  e){
         Descriptor<E> desc;
         Descriptor<E> newd;
+        int zeroNumFirst=0;
 
-//        do{
-//           desc=descriptor.get();
-//           desc.completeWrite();
-//
-//           int pos = desc.size+FIRST_BUCKETS_SIZE;
-//           int zeroNumPos = Integer.numberOfLeadingZeros(pos);
-////           int bucketInd =
-//        }while (1==1){
-//
-//        };
+        do{
+           desc=descriptor.get();
+           desc.completeWrite();
+
+           int pos = desc.size+FIRST_BUCKETS_SIZE;
+           int zeroNumPos = Integer.numberOfLeadingZeros(pos);
+           int bucketInd = zeroNumFirst - zeroNumPos;
+           if(buckets.get(bucketInd) == null){
+               int newlen=2 * buckets.get(bucketInd-1).length();
+
+               buckets.compareAndSet(bucketInd,null,new AtomicReferenceArray<E>(newlen));
+           }
+            int idx=(0x80000000>>>zeroNumPos) ^ pos;
+            newd = new Descriptor<>(desc.size+1,new WriteDescriptor<>(buckets.get(bucketInd),idx,null,e));
+        }while (!descriptor.compareAndSet(desc,newd));
+        descriptor.get().completeWrite();
     }
 
     /**
@@ -79,6 +93,10 @@ public class LockFreeVector<E> {
         public void doIt(){
             addr.compareAndSet(addr_ind,oldV,newV);
         }
+
+    }
+
+    public static void main(String[] args) {
 
     }
 }
