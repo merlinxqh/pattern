@@ -43,5 +43,12 @@
 			<artifactId>disruptor</artifactId>
 			<version>${disruptor.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.leo</groupId>
+			<artifactId>jmatrices</artifactId>
+			<version>0.6</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jmatrices0.6.jar</systemPath>
+		</dependency>
 	</dependencies>
 </project>
