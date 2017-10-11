@@ -1,5 +1,6 @@
 package com.xqh.juc.design.matrixMultiply;
 
+import com.alibaba.fastjson.JSON;
 import org.jmatrices.dbl.Matrix;
 import org.jmatrices.dbl.MatrixFactory;
 
@@ -16,11 +17,16 @@ public class PMatrixMul {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         ForkJoinPool forkJoinPool=new ForkJoinPool();
-        Matrix m1= MatrixFactory.getRandomMatrix(300,300,null);
-        Matrix m2= MatrixFactory.getRandomMatrix(300,300,null);
+        Matrix m1= MatrixFactory.getRandomMatrix(100,100,null);
+        Matrix m2= MatrixFactory.getRandomMatrix(100,100,null);
         MatrixMulTask task=new MatrixMulTask(m1,m2,null);
         ForkJoinTask<Matrix> result=forkJoinPool.submit(task);
         Matrix pr=result.get();
+        System.out.println("------------------------m1-----------------------");
+        System.out.println(m1);
+        System.out.println("------------------------m2-----------------------");
+        System.out.println(m2);
+        System.out.println("------------------------pr-----------------------");
         System.out.println(pr);
     }
 }
