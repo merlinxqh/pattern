@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +27,7 @@ public class HeavySocketClient {
             BufferedReader reader=null;
             try {
                 client=new Socket();
-                client.connect(new InetSocketAddress("localhost",8000));
+                client.connect(new InetSocketAddress(InetAddress.getLocalHost(),8000));
                 writer=new PrintWriter(client.getOutputStream(),true);
                 writer.print("H");
                 //服务端等待IO
