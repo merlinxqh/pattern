@@ -1,7 +1,9 @@
 package com.xqh.juc.nio;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
@@ -63,11 +65,39 @@ public class NioSocketClient {
        }
     }
 
-    public void connect(SelectionKey sk){
-
+    public void connect(SelectionKey sk) throws IOException {
+       SocketChannel channel = (SocketChannel) sk.channel();
+        /**
+         * 如果正在连接,则完成连接
+         */
+       if(channel.isConnectionPending()){
+           channel.finishConnect();
+       }
+       channel.configureBlocking(false);
+       channel.write(ByteBuffer.wrap(new String("hello server!\r\n").getBytes()));
+       channel.register(selector,SelectionKey.OP_READ);
     }
 
-    public void read(SelectionKey sk){
+    /**
+     * 当Channel可读时,会执行read方法
+     * @param sk
+     */
+    public void read(SelectionKey sk) throws IOException {
+       SocketChannel channel = (SocketChannel) sk.channel();
+       //创建读取的缓冲区
+        ByteBuffer buffer=ByteBuffer.allocate(100);
+        channel.read(buffer);
+        byte[] data=buffer.array();
 
+        String msg=new String(data).trim();
+        System.out.println("客户端接收到的消息:"+msg);
+        channel.close();
+        sk.selector().close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        NioSocketClient client=new NioSocketClient();
+        client.init("localhost",8000);
+        client.working();
     }
 }

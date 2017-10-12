@@ -45,8 +45,8 @@ public class NioMultiThreadEchoServer {
         ServerSocketChannel ssc = ServerSocketChannel.open();
         ssc.configureBlocking(false);//设置为非阻塞模式
 
-        InetSocketAddress isa = new InetSocketAddress(InetAddress.getLocalHost(),8000);
-//        InetSocketAddress isa = new InetSocketAddress(8000);
+//        InetSocketAddress isa = new InetSocketAddress(InetAddress.getLocalHost(),8000);
+        InetSocketAddress isa = new InetSocketAddress(8000);
         ssc.socket().bind(isa);
         /**
          * acceptKey 是Channel 和 Selector 两者服务关系的 契约
