@@ -7,4 +7,4 @@
  * 3. 文件IO
  * 4. 网络IO
  */
-package com.xqh.juc.nio;
+package com.xqh.juc.NIO;

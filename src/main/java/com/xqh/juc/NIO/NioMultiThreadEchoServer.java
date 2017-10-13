@@ -1,6 +1,4 @@
-package com.xqh.juc.nio;
-
-import com.alibaba.fastjson.JSON;
+package com.xqh.juc.NIO;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -30,12 +28,12 @@ public class NioMultiThreadEchoServer {
     /**
      * 线程池用于对每个客户端进行相应的处理
      */
-    private ExecutorService tp= Executors.newCachedThreadPool();
+    private ExecutorService tp = Executors.newCachedThreadPool();
 
     /**
      * 统计服务器线程在一个客户端花费多少时间
      */
-    private static Map<Socket,Long> time_stat=new HashMap<>(10240);
+    private static Map<Socket,Long> time_stat = new HashMap<>(10240);
 
     /**
      * 启动NIO Server
@@ -103,7 +101,7 @@ public class NioMultiThreadEchoServer {
 
 
     private void doAccept(SelectionKey sk){
-       ServerSocketChannel server= (ServerSocketChannel) sk.channel();
+       ServerSocketChannel server = (ServerSocketChannel) sk.channel();
        SocketChannel clientChannel;
        try {
            clientChannel = server.accept();

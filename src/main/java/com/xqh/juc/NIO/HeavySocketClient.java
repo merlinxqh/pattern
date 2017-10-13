@@ -1,4 +1,4 @@
-package com.xqh.juc.nio;
+package com.xqh.juc.NIO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
