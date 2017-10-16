@@ -1,4 +1,4 @@
-package com.xqh.juc.declarative;
+package com.xqh.juc.functional;
 
 import java.util.Arrays;
 
@@ -34,8 +34,21 @@ public class DeclarativeDemo {
         /**
          * 在使用函数式编程时,几乎所有的对象都拒绝被修改. 类似 不变模式
          */
-        Arrays.stream(arry).map((x) -> x=x+1).forEach(System.out::println);
-        System.out.println();
-        Arrays.stream(arry).forEach(System.out::println);
+//        Arrays.stream(arry).map((x) -> x=x+1).forEach(System.out::println);
+//        System.out.println();
+//        Arrays.stream(arry).forEach(System.out::println);
+
+//        for(int i=0;i<arry.length;i++){
+//            if(arry[i]%2 != 0){
+//                arry[i]++;
+//            }
+//            System.out.println(arry[i]);
+//        }
+        Arrays.stream(arry).map(x-> x%2==0?x:x+1).forEach(System.out::println);
+    }
+
+    @FunctionalInterface
+    public static interface InHandler {
+        void handle(int i);
     }
 }
