@@ -27,7 +27,7 @@ public class InBoxMain {
                 System.out.println("My Worker is closing");
             }else if(msg instanceof Terminated){
                 System.out.println("My worker is dead");
-                system.stop(worker);
+                system.shutdown();
                 break;
             }else {
                 System.out.println(msg);

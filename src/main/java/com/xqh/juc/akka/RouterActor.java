@@ -30,6 +30,9 @@ public class RouterActor extends UntypedActor{
             getContext().watch(woker);
             routees.add(new ActorRefRoutee(woker));
         }
+        /**
+         * 使用RoundRobinRoutingLogic路由策略(轮询消息发送)
+         */
         router=new Router(new RoundRobinRoutingLogic(), routees);
     }
 
@@ -43,7 +46,7 @@ public class RouterActor extends UntypedActor{
            if(router.routees().size() == 0){
                System.out.println("Close system");
                RouteMain.flag.send(false);
-               getContext().system().stop(getSelf());
+               getContext().system().shutdown();
            }
        }else {
            unhandled(msg);

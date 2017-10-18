@@ -21,9 +21,9 @@ public class RouteMain {
             w.tell(MyWorker.Msg.WORKING, ActorRef.noSender());
             if(i%10 == 0){
                 w.tell(MyWorker.Msg.CLOSE,ActorRef.noSender());
-                i++;
-                Thread.sleep(100);
             }
+            i++;
+            Thread.sleep(100);
         }
     }
 }

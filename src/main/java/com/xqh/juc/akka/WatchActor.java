@@ -21,7 +21,7 @@ public class WatchActor extends UntypedActor {
     public void onReceive(Object msg) {
        if(msg instanceof Terminated){
            System.out.println(String.format("%s has terminated, shutting down system",((Terminated)msg).getActor().path()));
-           getContext().system().stop(getSelf());
+           getContext().system().shutdown();
        }else {
            unhandled(msg);
        }
