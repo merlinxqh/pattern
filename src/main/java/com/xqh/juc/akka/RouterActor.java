@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by leo on 2017/10/18.
+ * 路由管理
  */
 public class RouterActor extends UntypedActor{
 
@@ -31,7 +32,11 @@ public class RouterActor extends UntypedActor{
             routees.add(new ActorRefRoutee(woker));
         }
         /**
-         * 使用RoundRobinRoutingLogic路由策略(轮询消息发送)
+         * 路由策略
+         * 1. RoundRobinRoutingLogic (轮询消息发送)
+         * 2. BroadcastRoutingLogic  (广播策略)
+         * 3. RandomRoutingLogic     (随机投递策略)
+         * 4. SmallestMailboxRoutingLogic  (空闲Actor悠闲投递策略)
          */
         router=new Router(new RoundRobinRoutingLogic(), routees);
     }
@@ -39,9 +44,12 @@ public class RouterActor extends UntypedActor{
     @Override
     public void onReceive(Object msg){
        if(msg instanceof MyWorker.Msg){
+           /**
+            * WORKING消息被轮流发送给 五个worker
+            */
            router.route(msg,getSender());
        }else if(msg instanceof Terminated){
-           router.removeRoutee(((Terminated)msg).actor());
+           router=router.removeRoutee(((Terminated)msg).actor());
            System.out.println(((Terminated)msg).actor().path()+" is closed,routees="+router.routees().size());
            if(router.routees().size() == 0){
                System.out.println("Close system");

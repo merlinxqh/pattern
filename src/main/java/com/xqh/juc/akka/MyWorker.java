@@ -34,7 +34,15 @@ public class MyWorker extends UntypedActor {
 
     @Override
     public void onReceive(Object msg){
-        if(msg == Msg.WORKING){
+        if(msg instanceof Integer){
+            int i=(Integer)msg;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            getSender().tell(i*i,getSelf());
+        }else if(msg == Msg.WORKING){
             System.out.println("I am working");
         }else  if(msg == Msg.DONE){
             System.out.println("Stop working");
