@@ -1,11 +1,29 @@
 package com.xqh;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class Test {
 
 	private static final String str="a";
-	public static void main(String[] args) throws Exception {
+
+	public static void main(String[] args) {
+		for(int i = 0;i<10;i++){
+			System.out.println(getOne());
+		}
+	}
+
+	public static Map<String,String> getOne(){
+		Long userId = (long)((Math.random()*9+1)*1000000);
+		String uuid= UUID.randomUUID().toString().replaceAll("-","");
+		Map<String,String> map= new HashMap<>();
+		map.put("token",uuid+"_"+userId);
+		map.put("userId",userId.toString());
+		return map;
+	}
+	public static void main1(String[] args) throws Exception {
 //		Integer a = 127;
 //		Integer b = 127;
 //		Integer c = 128;
