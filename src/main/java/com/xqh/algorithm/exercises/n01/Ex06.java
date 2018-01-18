@@ -7,12 +7,45 @@ e
 public class Ex06 {
 
     public static void main(String[] args) {
-        String s = "123";// 这里是要用到的所有数组成的一个字符串,其它字符同样适用
+        String s = "1234";// 这里是要用到的所有数组成的一个字符串,其它字符同样适用
         char[] c = s.toCharArray();
         zuhe(c,c.length,0);
         System.out.println("可能的组合数：" + kk);
     }
     static int kk = 0;
+
+    /**
+     * 1,2,3,4
+     * 1,2,4,3
+     * 1,3,2,4
+     * 1,3,4,2
+     * 1,4,3,2
+     * 1,4,2,3
+     *
+     * 2,1,3,4
+     * 2,1,4,3
+     * 2,3,1,4
+     * 2,3,4,1
+     * 2,4,3,1
+     * 2,4,1,3
+     *
+     * 3,2,1,4
+     * 3,2,4,1
+     * 3,1,2,4
+     * 3,1,4,2
+     * 3,4,1,2
+     * 3,4,2,1
+     *
+     * 4,2,3,1
+     * 4,2,1,3
+     * 4,3,2,1
+     * 4,3,1,2
+     * 4,1,3,2
+     * 4,1,2,3
+     * @param array
+     * @param n
+     * @param k
+     */
     private static void zuhe(char[] array,int n,int k) {
         if (n == k) {
             String str = new String(array);
