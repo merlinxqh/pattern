@@ -14,6 +14,7 @@ public class Ex06 {
     }
     static int kk = 0;
     private static void zuhe(char[] array,int n,int k) {
+        System.out.println("execute zuhe method...");
         if (n == k) {
             String str = new String(array);
             System.out.println(str);
@@ -31,6 +32,23 @@ public class Ex06 {
         a[x] = a[y];
         a[y] = temp;
     }
+
+    public static void main22222(String[] args) {
+        String str="1234";
+        zuhe(str.toCharArray(),6,0);
+    }
+
+    public static void combine(char[] array, int  len, int index){
+        for(int i = index;i < len;i++){
+            swap(array, index, i);
+            if(index < len-1){
+                combine(array,len, index+1);
+            }
+            System.out.println(String.valueOf(array));
+            swap(array, i, index);
+        }
+    }
+
 
     /**
      * 嵌套两层 循环 当外层循环 序号 不等于 里层循环序号 时 对换 位置 此时 是一个有效的组合
