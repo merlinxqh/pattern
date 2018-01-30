@@ -1,8 +1,6 @@
 package com.xqh;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class Test {
@@ -10,6 +8,12 @@ public class Test {
 	private static final String str="a";
 
 	public static void main(String[] args) {
+		List<Object> obj = new ArrayList<>();
+		for(Object o : obj){
+		}
+	}
+
+	public static void main11(String[] args) {
 		for(int i = 0;i<10;i++){
 			System.out.println(getOne());
 		}
