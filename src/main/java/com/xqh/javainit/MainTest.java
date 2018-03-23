@@ -46,6 +46,6 @@ public class MainTest {
 	    */
 	   System.out.println(SubClass.STATIC_VARIABLE);
 	   
-	   
    }
+
 }
