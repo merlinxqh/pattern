@@ -13,6 +13,7 @@ import java.util.List;
  * @Author leo
  * @Date 2018/11/22 0022
  * canal demo
+ * https://www.aliyun.com/jiaocheng/34834.html?spm=5176.100033.2.6.19372237dqKoCx
  */
 public class CanalClientDemo {
 
