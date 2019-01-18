@@ -94,6 +94,7 @@ public class NioMultiThreadEchoServer {
                     long b=time_stat.remove(((SocketChannel)sk.channel()).socket());
                     System.out.println("spend:"+(e-b)+" ms");
                 }
+                //添加测试gitkragen
             }
         }
 
