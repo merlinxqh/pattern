@@ -2,6 +2,8 @@ package com.xqh.test;
 
 import com.xqh.utils.Crypto3DES;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +24,20 @@ public class SignTestDemo {
 //        buildAccessTokenSign();//获取accessToken 签名
 //        buildEmailRegisterSign();//邮件注册用户 签名
 //        buildSendActivityEmailSign();//发送激活邮件签名
-        buildThirdPartyRegisterSign();//第三方注册 签名
+//        buildThirdPartyRegisterSign();//第三方注册 签名
+//        buildThirdPartyBindAccountSign();//第三方系统绑定现有账号
+//        buildQRcodeLoginSign();//扫码登录
+//        buildRefreshTokenSign();//刷新accessToken
+        buildImgCodeSign();//生成图片验证码 签名
+//        encodeStr("ua_Ngs4gzE3XX1ASwRh4hEZ0jHdNNRMyRWh3RL0bdKLtq8+Jv3BDWqvhi7kVfeD1hYAb3fkOBlTWACjMkUPNi0c2VbEBihuwkh+");
+    }
+
+    public static void encodeStr(String str){
+        try {
+            System.out.println(URLEncoder.encode(str, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -38,6 +53,17 @@ public class SignTestDemo {
     }
 
     /**
+     * 扫码登录 签名
+     */
+    public static void buildQRcodeLoginSign(){
+        List<String> params = commonParams();
+        params.add(timeStamp);//timeStamp
+        //accessToken
+        params.add("ua_Ngs4gzE3XX1ASwRh4hEZ0jHdNNRMyRWh3RL0bdKLtq8+Jv3BDWqvhi7kVfeD1hYAb3fkOBlTWACjMkUPNi0c2VbEBihuwkh+");
+        System.out.println(buildSignature(params));
+    }
+
+    /**
      * 获取 accessToken 参数 签名
      */
     public static void buildAccessTokenSign(){
@@ -45,6 +71,26 @@ public class SignTestDemo {
         params.add(timeStamp);//timeStamp
         //flushToken
         params.add("uf_f5l+NSUwoXzs9uEcPhDNgUk1YYCqOlMoRTOFrexbPPRWuzCdrmCgf3F7nVUmEGUv8FuYB1mA0pf0wtyZjPCQnUyDA3KTnVxf");
+        System.out.println(buildSignature(params));
+    }
+
+    /**
+     * 图片验证码  签名
+     */
+    public static void buildImgCodeSign(){
+        List<String> params = commonParams();
+        params.add(timeStamp);//timeStamp
+        params.add("W3E14G");//imageId 页面生成的唯一标识
+        System.out.println(buildSignature(params));
+    }
+
+    /**
+     * 获取刷新accessToken 签名
+     */
+    public static void buildRefreshTokenSign(){
+        List<String> params = commonParams();
+        params.add("ua_Ngs4gzE3XX1ASwRh4hEZ0jHdNNRMyRWh3RL0bdKLtq8+Jv3BDWqvhi7kVfeD1hYAb3fkOBlTWACjMkUPNi0c2VbEBihuwkh+");
+        params.add(timeStamp);
         System.out.println(buildSignature(params));
     }
 
@@ -67,7 +113,9 @@ public class SignTestDemo {
         params.add("2");//thirdPartyId
         params.add("502738919");//thirdPartyUserId
         params.add("qhx_kael@163.com");//account
-        params.add("25f9e794323b453885f5181f1b624d0b");//密码 md5加密
+        params.add("123456789");//密码 md5加密
+        params.add(timeStamp);
+        System.out.println(buildSignature(params));
     }
 
     /**
