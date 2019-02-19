@@ -121,10 +121,11 @@ public class ExcelUtil {
         value = cell.getStringCellValue();
         break;
       case NUMERIC:
-        if (DateUtil.isCellDateFormatted(cell)) { //日期
-          value = FAST_DATE_FORMAT
-              .format(DateUtil.getJavaDate(cell.getNumericCellValue()));//统一转成 yyyy/MM/dd
-        } else if ("@".equals(cell.getCellStyle().getDataFormatString())
+//        if (DateUtil.isCellDateFormatted(cell)) { //日期
+//          value = FAST_DATE_FORMAT
+//                  .format(DateUtil.getJavaDate(cell.getNumericCellValue()));//统一转成 yyyy/MM/dd
+//        } else
+        if ("@".equals(cell.getCellStyle().getDataFormatString())
             || "General".equals(cell.getCellStyle().getDataFormatString())
             || "0_ ".equals(cell.getCellStyle().getDataFormatString())) {
           //文本  or 常规 or 整型数值
