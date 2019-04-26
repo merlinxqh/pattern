@@ -72,7 +72,7 @@ public class SyncTest {
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main11(String[] args) {
 		Thread t1=new Thread(new Runnable() {
 			public void run() {
 				synchronized (SyncEntity.class) {
@@ -95,6 +95,41 @@ public class SyncTest {
 		},"test2");
 		t1.start();
 		t2.start();
+	}
+
+	public final static String SYNC_STR = "test:sync";
+
+
+	public void testMethod(){
+		String syncStr = SYNC_STR.concat(":").concat("test");
+		synchronized (SYNC_STR){
+			System.out.println(Thread.currentThread().getName()+"获取到锁");
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println(Thread.currentThread().getName()+"释放锁");
+		}
+	}
+
+	public static class TestThread implements Runnable{
+		private SyncTest t;
+
+		public TestThread(SyncTest t){
+			this.t = t;
+		}
+		@Override
+		public void run() {
+           t.testMethod();
+		}
+	}
+
+	public static void main(String[] args) {
+		SyncTest t1 = new SyncTest();
+		SyncTest t2 = new SyncTest();
+        new Thread(new TestThread(t1)).start();
+		new Thread(new TestThread(t1)).start();
 	}
 
 }
