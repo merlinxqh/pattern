@@ -1,6 +1,9 @@
 package com.xqh.test;
 
+import com.alibaba.fastjson.JSON;
 import com.xqh.utils.EncryUtils;
+
+import java.math.BigDecimal;
 
 /**
  * Created by leo on 2017/12/15.
@@ -20,7 +23,14 @@ public class MainTest {
 //        }
 //        int a=0;
 //        System.gc();
-        System.out.println(EncryUtils.getMd5("123456789"));
+//        System.out.println(EncryUtils.getMd5("123456789"));
 
+//        String url = "http://localhost:8800/pay?test=abc&name=hello&amount=122.0";
+        Long a = 5L;
+        Long b = 5L;
+        BigDecimal bd = NumberUtils.divide(new BigDecimal(a * b), new BigDecimal(100));
+
+        System.out.println(bd.longValue());
+//        System.out.println(JSON.toJSONString(url.substring(url.indexOf("?")).split("&")));
     }
 }

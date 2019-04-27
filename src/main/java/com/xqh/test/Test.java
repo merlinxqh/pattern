@@ -21,8 +21,10 @@ public class Test {
 //		String data = "15488297844ODYxNjkxNjExMjA4ODMxuf_sqw2TOIgcXA6skNB/Lp7nHoHj8PiStXnk9TYcbogheUjTI8Tv/Ljiiczb5UcwRjpnioyVOrLpm58sHhf5Id1NPXE+Bs4M/63BCcibJpjrsg=";
 //		System.out.println(getSHA1Digest(data));
 //		buildTestSign();
-		System.out.println(URLEncoder.encode("+","UTF-8"));
-        System.out.println(getCurrentUnixTimestamp());
+//		System.out.println(URLEncoder.encode("+","UTF-8"));
+//        System.out.println(getCurrentUnixTimestamp());
+		String test = "abcd,dfasdf";
+		System.out.println(test.substring(test.indexOf(",")+1));
 	}
 
 	public static void buildTestSign(){
