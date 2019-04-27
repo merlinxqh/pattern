@@ -22,7 +22,7 @@ public class EncryUtils {
 	public static final int SALT_SIZE = 8;
     
     public static void main(String[] args) {
-		System.out.println(getMd5("309mgRYX"));
+		System.out.println(getMd5("123456"));
 	}
     
     /**
@@ -36,11 +36,11 @@ public class EncryUtils {
     
     
     public static String getSha1(String string) {
-		return encryCalc(string,"SHA1");
+		return encryptCalc(string,"SHA1");
 	}
     
     public static String getMd5(String str){
-    	return encryCalc(str, "MD5");
+    	return encryptCalc(str, "MD5");
     }
 
 
@@ -49,14 +49,14 @@ public class EncryUtils {
      * @param str
      * @return
      */
-    public static String encryCalc(String str,String encryType){
+    public static String encryptCalc(String str,String encryptType){
         if (null == str || 0 == str.length()){
             return null;
         }
         char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
                 'a', 'b', 'c', 'd', 'e', 'f'};
         try {
-            MessageDigest mdTemp = MessageDigest.getInstance(encryType);
+            MessageDigest mdTemp = MessageDigest.getInstance(encryptType);
             mdTemp.update(str.getBytes("UTF-8"));
              
             byte[] md = mdTemp.digest();

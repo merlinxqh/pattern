@@ -7,10 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.sound.midi.Soundbank;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -23,14 +20,19 @@ import java.util.stream.Collectors;
 public class LambdaTest {
 
     public static void main(String[] args) {
-        getRemoveDuplicateList();
+        //TODO 待办事项
+//        getRemoveDuplicateList();
+        groupByTest();
     }
 
-    /**
-     * lambda 获取 去重集合
-     * @return
-     */
-    public static List<TestDemo> getRemoveDuplicateList(){
+    public static void groupByTest(){
+        //FIXME
+        List<TestDemo> list = getTestList();
+        Map<String, List<TestDemo>> map = list.stream().collect(Collectors.groupingBy(TestDemo::getId));
+        System.out.println(JSON.toJSONString(map));
+    }
+
+    public static List<TestDemo> getTestList(){
         List<TestDemo> list = Lists.newArrayList();
         list.add(TestDemo.builder()
                 .id("id_1")
@@ -38,7 +40,7 @@ public class LambdaTest {
                 .build());
         list.add(TestDemo.builder()
                 .id("id_1")
-                .name("name_1")
+                .name("name_2")
                 .build());
         list.add(TestDemo.builder()
                 .id("id_2")
@@ -48,6 +50,15 @@ public class LambdaTest {
                 .id("id_3")
                 .name("name_1")
                 .build());
+        return list;
+    }
+
+    /**
+     * lambda 获取 去重集合
+     * @return
+     */
+    public static List<TestDemo> getRemoveDuplicateList(){
+        List<TestDemo> list = getTestList();
         List<TestDemo> resList = list.stream().collect(Collectors.collectingAndThen(
                 Collectors.toCollection(()-> new TreeSet<>(Comparator.comparing(c-> c.getId()))), ArrayList::new
         ));
