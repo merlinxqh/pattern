@@ -3,12 +3,13 @@ package com.xqh.test;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.util.concurrent.Callable;
 
 /**
  * Created by leo on 2017/12/15.
  */
 public class MainTest {
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static void main(String[] args) throws Exception {
 //        String key="obj.objItem.key";
 //        System.out.println(key.substring(key.indexOf(".")+1));
         /**
@@ -25,16 +26,27 @@ public class MainTest {
 //        System.out.println(EncryUtils.getMd5("123456789"));
 
 //        String url = "http://localhost:8800/pay?test=abc&name=hello&amount=122.0";
-        Long a = 5L;
-        Long b = 5L;
-        BigDecimal bd = NumberUtils.divide(new BigDecimal(a * b), new BigDecimal(100));
-
-        System.out.println(bd.longValue());
-//        System.out.println(JSON.toJSONString(url.substring(url.indexOf("?")).split("&")));
-//        switchTest(2);
+//        Long a = 5L;
+//        Long b = 5L;
+//        BigDecimal bd = NumberUtils.divide(new BigDecimal(a * b), new BigDecimal(100));
 //
-        String filePath = "D:\\testfile\\ffff\\sdfasdf\\";
-        filePathMkdirs(filePath);
+//        System.out.println(bd.longValue());
+////        System.out.println(JSON.toJSONString(url.substring(url.indexOf("?")).split("&")));
+////        switchTest(2);
+////
+//        String filePath = "D:\\testfile\\ffff\\sdfasdf\\";
+//        filePathMkdirs(filePath);
+        TestThread t = new TestThread();
+        System.out.println(t.call());
+    }
+
+
+    public static class TestThread implements Callable<String>{
+        @Override
+        public String call() throws Exception {
+            Thread.sleep(3000);
+            return "success";
+        }
     }
 
     public static void filePathMkdirs(String targetPath){
