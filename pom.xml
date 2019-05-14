@@ -19,6 +19,7 @@
 		<disruptor.version>3.3.2</disruptor.version>
 		<poi.version>3.17</poi.version>
 		<spring.version>4.3.12.RELEASE</spring.version>
+		<httpclient.version>4.5.3</httpclient.version>
 	</properties>
 
 	<dependencies>
@@ -157,6 +158,36 @@
 					<artifactId>akka-actor</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>${httpclient.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!--http工具类-->
+		<dependency>
+			<groupId>com.arronlong</groupId>
+			<artifactId>httpclientutil</artifactId>
+			<version>1.0.4</version>
 		</dependency>
 	</dependencies>
 </project>
