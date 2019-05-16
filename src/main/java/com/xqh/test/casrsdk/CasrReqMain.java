@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @ClassName CasrReqMain
@@ -17,8 +19,8 @@ public class CasrReqMain {
 
     public static void main(String[] args) throws Exception{
         StringBuffer sb = new StringBuffer();
-        sb.append("jxzqe2bsxddiijynaozhpn4xgtbpltd33flddvyd").append("\n<asr_contact>\n张三\n李四\n网络名称7\n</asr_contact>\n");
-        URL url = new URL("http://localhost:8808/casr/upload");// 创建连接
+        sb.append("jxzqe2bsxddiijynaozhpn4xgtbpltd33flddvyd").append("\n<asr_contact>\n张三\n李四\n网络名称7\n</asr_contact>\n<channel>\n复仇者联盟\n战狼\n流浪地球\n</channel>\n");
+        URL url = new URL("http://192.168.188.131:8808/casr/upload");// 创建连接
 //        URL url = new URL("http://localhost:9060/test2");// 创建连接
         //URL url = new URL("http://10.20.222.140:8080/picturebook/recognize" + value);// 创建连接
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -44,6 +46,24 @@ public class CasrReqMain {
             System.out.println(line);
             responsestr = responsestr + line;
         }
+    }
+
+    private static String replaceRegex ="<(asr_contact)>(.*?)</(asr_contact)>";
+
+
+    public static void parseTxt(){
+        StringBuffer sb = new StringBuffer();
+        sb.append("<asr_contact>\n张三\n李四\n网络名称7\n</asr_contact>\n<channel>\n复仇者联盟\n战狼\n流浪地球\n</channel>\n");
+        String txt = sb.toString();
+        Pattern replacePattern = Pattern.compile(replaceRegex);
+        Pattern p = Pattern.compile("<(.*?)>(.*?)</(.*?)>");
+        Matcher replaceMatcher = p.matcher(txt);
+        while (replaceMatcher.find()){
+            String matched = replaceMatcher.group();
+            System.out.println(matched);
+        }
+
+
     }
 
     private static byte[] encode(String key, String data, byte[] targetData) {
