@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 /**
  * Created by leo on 2017/12/15.
@@ -36,14 +37,36 @@ public class MainTest {
 ////
 //        String filePath = "D:\\testfile\\ffff\\sdfasdf\\";
 //        filePathMkdirs(filePath);
+
+//          File file = new File("D:\\chromeDownload\\nlu指令对比结果 (22).xlsx");
+//        System.out.println(file.getName());
+//        System.out.println(file.getName().contains("."));
+
+//        String test = "/fasdf";
+//        System.out.println(test.substring(1));
+
+        String url = "http://scv2.sh.hivoice.cn:80/service/iss?appendLength=1&wakeupword=%E5%B0%8F%E8%8C%82%E5%B0%8F%E8%8C%82&city=%E6%B7%B1%E5%9C%B3%E5%B8%82&appver=1.0.1&filterName=nlu3&screen=&platform=&audioUrl=false&viewid=&scenario=&udid=LTY2OTg5Mjk4NTAwNWE3YmU1ZTE3YmUxqq&dpi=&filterUrl=http%3A%2F%2F47.107.47.68%3A19998%2Fprocess%2Ftr%2FdataProcess&ver=3.2&method=iss.getTalk&gps=22.554349%2C113.948661&history=&oneshotKeyProperty=wakeup&additionalService=athenaAppService&voiceid=2fa3cfabce6ff4640889f5236ce5028f&appsig=7FF47E6F31169EDFCC4CA58E01613DC3A164E42F&fullDuplex=false&time=2019-03-2110%3A25%3A20&req_nlu_length=1&returnType=json";
+        String params = url.substring(0, url.indexOf("?"));
+//        for(String p:params.split("&")){
+//            System.out.println(p);
+//        }
+        System.out.println(params.substring(0, params.length()-1));
+    }
+
+    public static void callableThreadTest(){
         TestThread t = new TestThread();
-        System.out.println(t.call());
+        TestThread t2 = new TestThread();
+        FutureTask<String> f1 = new FutureTask<>(t);
+        FutureTask<String> f2 = new FutureTask<>(t2);
+        new Thread(f1).start();
+        new Thread(f2).start();
     }
 
 
     public static class TestThread implements Callable<String>{
         @Override
         public String call() throws Exception {
+            System.out.println(Thread.currentThread().getName()+" in....");
             Thread.sleep(3000);
             return "success";
         }

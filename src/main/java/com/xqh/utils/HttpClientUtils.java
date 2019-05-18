@@ -26,7 +26,7 @@ public class HttpClientUtils {
         String betParams = "{\"lottery\":\"BJKL8\",\"drawNumber\":\"952174\",\"bets\":[{\"game\":\"ZDS\",\"contents\":\"D\",\"amount\":1,\"odds\":1.995}],\"ignore\":false}";
     }
 
-    public static void main(String[] args) throws HttpProcessException {
+    public static void main1111(String[] args) throws HttpProcessException {
 //        String url = "https://www.mtc46.com/static/data/65CurIssue.json?_t=1557587420572";
 //        String resp = HttpClientUtil.get(HttpConfig.custom().url(url));
 //
@@ -94,4 +94,51 @@ public class HttpClientUtils {
 //        application/x-www-form-urlencoded; charset=UTF-8
 // x-session-token=h9qD1wNUGY5DfpgT60l6UI1K%2Bby1aEGeJQ27Kg7La7rFZzaRdeDkmA%3D%3D; domain=www.mtc46.com; path=/
     }
+
+
+    public static void main(String[] args) throws HttpProcessException {
+//        login8048();
+        String str = "09:00-23:00";
+        System.out.println(str.indexOf("-"));
+    }
+
+    public static void login8048() throws HttpProcessException {
+        String url = "https://c8084.com/web/rest/cashlogin";
+        Map<String, Object> reqMap = Maps.newHashMap();
+        reqMap.put("account", "a2313166");
+        reqMap.put("password", "a2313165");
+        HttpConfig config = HttpConfig.custom().url(url).map(reqMap);
+        String resp = HttpClientUtil.post(config);
+        System.out.println(resp);
+        // {"message":"_OLID_=b7bbcd5a70108e3b9a1395889c999766be43fbb6","success":true}
+    }
+
+    public static void testReq8048() throws HttpProcessException {
+        Header[] headers = HttpHeader.custom()
+                .cookie("_skin_=red; defaultLT=BJKL8; 80ee0819ce4f=b7bbcd5a70108e3b9a1395889c999766be43fbb6; affid=null; token=b7bbcd5a70108e3b9a1395889c999766be43fbb6")
+                .build();
+        String testUrl = "https://c8084.com/member/agreement";
+        String resp = HttpClientUtil.get(HttpConfig.custom().url(testUrl).headers(headers));
+        System.out.println(resp);
+    }
+
+    public static void getIssue8048() throws HttpProcessException {
+        Header[] headers = HttpHeader.custom()
+                .cookie("_skin_=red; defaultLT=BJKL8; 80ee0819ce4f=299992088f1ef30c0c5cb7b4a1a4bf34552e601b; affid=null; token=299992088f1ef30c0c5cb7b4a1a4bf34552e601b")
+                .build();
+        String url = "https://c8084.com/member/period?lottery=BJKL8&_=1558148460858";
+//        String lottery = "BJKL8";
+        String oddUrl = "https://c8084.com/member/odds?lottery=BJKL8&games=ZDS&_=1558163375610";
+//        String game = "ZDS";
+        HttpConfig config = HttpConfig.custom().headers(headers).url(oddUrl);
+        String resp = HttpClientUtil.get(config);
+        System.out.println("===========>" + resp);
+
+    }
+
+    public static void bet8048(){
+        String betUrl = "https://c8084.com/member/bet";
+        String betPar = "{\"lottery\":\"BJKL8\",\"drawNumber\":\"952614\",\"bets\":[{\"game\":\"ZDS\",\"contents\":\"D\",\"amount\":1,\"odds\":1.995}],\"ignore\":false}\n";
+    }
 }
+
