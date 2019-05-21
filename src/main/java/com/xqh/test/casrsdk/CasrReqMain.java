@@ -1,7 +1,10 @@
 package com.xqh.test.casrsdk;
 
+import com.xqh.utils.ThreadPoolUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -18,34 +21,57 @@ import java.util.regex.Pattern;
 public class CasrReqMain {
 
     public static void main(String[] args) throws Exception{
-        StringBuffer sb = new StringBuffer();
-        sb.append("jxzqe2bsxddiijynaozhpn4xgtbpltd33flddvyd").append("\n<asr_contact>\n张三\n李四\n网络名称7\n</asr_contact>\n<channel>\n复仇者联盟\n战狼\n流浪地球\n</channel>\n");
-        URL url = new URL("http://192.168.188.131:8808/casr/upload");// 创建连接
-//        URL url = new URL("http://localhost:9060/test2");// 创建连接
-        //URL url = new URL("http://10.20.222.140:8080/picturebook/recognize" + value);// 创建连接
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
-        connection.setConnectTimeout(30 * 1000);
-        connection.connect();
+//        for(int i = 0; i< 50; i++){
+//            final  int idx = i;
+//            ThreadPoolUtils.execute(()->{
+//                try {
+//                    reqPersonalDataService("user_id_"+idx);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//        }
+        reqPersonalDataService("LTE3Nzg0MjcyMTUwMDVhN2JlNWUxN2JlMQ");
+    }
 
-        BufferedOutputStream out = new BufferedOutputStream(connection.getOutputStream());
+    private static final String casr_url = "http://192.168.3.239:8808/casr/upload";
+//    private static final String casr_url = "http://10.20.222.128:8282/casr/upload"; // 公有云test 地址
+    public static void reqPersonalDataService(String udid) throws Exception{
+        String appkey = "nmugoqugf3ikbhkhbaixhefxdinqcmgyhobsvjiv";
+//        String jsonstr= appkey + ";" + udid + "\n" +
+//                "<asr_contact>\n" +
+//                "张三\n" +
+//                "李四\n" +
+//                "郭建峰\n" +
+//                "小李飞刀\n" +
+//                "</asr_contact>\n" +
+//                "<hotel_light>\n" +
+//                "门廊灯门廊灯\n" +
+//                "廊灯门廊灯\n" +
+//                "</hotel_light>\n" +
+//                "<wechat_contact>\n" +
+//                "希拉里阁下\n" +
+//                "特浪普\n" +
+//                "</wechat_contact>\n";
 
-        byte[] targetData = new byte[5 + "TEST".getBytes().length + sb.toString().getBytes().length];
+        String jsonstr= appkey + ";" + udid + "\n" +
+                "<asr_contact>\n" +
+                "张三\n" +
+                "王小\n" +
+                "郭靖\n" +
+                "李立\n" +
+                "黄蓉\n" +
+                "杨大奇\n" +
+                "许仙志\n" +
+                "张大笨\n" +
+                "张三丰\n" +
+                "吴淞\n" +
+                "</asr_contact>\n";
 
-        out.write(encode("TEST", sb.toString(), targetData));
-        out.flush();
-        out.close();
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String line, responsestr = null;
-
-        while ((line = in.readLine()) != null)
-        {
-            System.out.println(line);
-            responsestr = responsestr + line;
-        }
+//        String jsonstr =appkey + ";" + udid + "\n" +"<asr_contact>\n张三\n李四\n网络名称1\n网络名称2" +
+//                "\n网络名称3\n网络名称4\n网络名称5\n" +
+//                "网络名称6\n网络名称7\n网络名称3\n</asr_contact>\n<channel>\n复仇者联盟\n战狼\n流浪地球\n</channel>\n";
+        submitCasrData(udid, jsonstr);
     }
 
     private static String replaceRegex ="<(asr_contact)>(.*?)</(asr_contact)>";
@@ -66,39 +92,73 @@ public class CasrReqMain {
 
     }
 
-    private static byte[] encode(String key, String data, byte[] targetData) {
-        byte[] keybyte = key.getBytes();
-        byte[] databyte = data.getBytes();
-        byte[] retbyte = new byte[keybyte.length + 10 + databyte.length];
+    private static byte[] encodes(byte[] chKey, byte[] chTarget, byte[] chEncode){
 
-        // 1、将key长度添加到目标数据
-        int keylen = keybyte.length;
-        targetData[0] = retbyte[0] = (byte) keylen;
+        int keyLen = chKey.length;
 
-        // 2、将key添加到目标数据
-        System.arraycopy(keybyte,0,targetData,1,keybyte.length);
+        chEncode[0] = (byte) keyLen;
 
-        // 3、将需要加密的数据添加到目标数据
-        byte param1 = 0;
-        byte param2 = keybyte[0];
-        for (int i = 0; i < databyte.length; i++) {
-            int index = i%keylen;
-            param2 = keybyte[index];
-            targetData[i+keylen+1] = (byte) (databyte[i] ^ param1 ^ param2);
-            param1 = targetData[i+keylen+1];
+        for (int i = 0; i < chKey.length; i++) {
+            chEncode[i+1] = chKey[i];
         }
 
-        int newseqlen = keylen + 1 + databyte.length + 4;
+        byte para1= 0;
+        byte para2= 0;
 
-        retbyte[0] = 0;
-        retbyte[1] = 0;
-        retbyte[2] = 0;
-        retbyte[3] = (byte)newseqlen;
+        for(int i=0; i<chTarget.length; i++)
+        {
+            int indexOfKey = i%keyLen;
+            para2 = chKey[indexOfKey];
+            chEncode[i+keyLen+1] =(byte) (chTarget[i] ^ para1 ^ para2);
+            para1 = chEncode[i+keyLen+1];
+        }
 
-        for (int i = 0; i < keylen + 1 + databyte.length; i++) {
-            retbyte[i+4] = targetData[i];
+        int totalLen = keyLen + 1 + chTarget.length + 4;
+
+        System.out.println("totalLen is " + totalLen);
+
+        byte[] retbyte = new byte[chEncode.length + 5 + keyLen];
+
+        retbyte[0] = (byte)(0xff & totalLen >> 24);
+        retbyte[1] = (byte)(0xff & totalLen >> 16);
+        retbyte[2] = (byte)(0xff & totalLen >> 8);
+        retbyte[3] = (byte)(0xff & totalLen);
+
+        for (int i = 0; i < chEncode.length; i++) {
+            retbyte[4+i] = chEncode[i];
         }
 
         return retbyte;
+    }
+
+    public static void submitCasrData(String udid, String jsonstr) throws IOException {
+        byte[] userid = udid.getBytes();
+
+        byte[] jsonstrBytes = jsonstr.getBytes();
+
+        byte[] oneshotBytes = new byte[jsonstrBytes.length + userid.length + 5];
+
+        byte[] retbyte = encodes(udid.getBytes(), jsonstr.getBytes(), oneshotBytes);
+
+        URL url = new URL(casr_url);// 创建连接
+
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+        connection.setConnectTimeout(30 * 1000);
+        connection.connect();
+
+        BufferedOutputStream out = new BufferedOutputStream(connection.getOutputStream());
+        out.write(retbyte);
+        out.flush();
+        out.close();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String line = null;
+
+        while ((line = in.readLine()) != null) {
+            System.out.println(line);
+        }
     }
 }
