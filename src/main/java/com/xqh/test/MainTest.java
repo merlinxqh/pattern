@@ -1,10 +1,24 @@
 package com.xqh.test;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+import com.xqh.utils.ExcelReader;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.FileCopyUtils;
+
+import javax.sound.midi.Soundbank;
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
+import java.util.stream.Collectors;
 
 /**
  * Created by leo on 2017/12/15.
@@ -45,13 +59,35 @@ public class MainTest {
 //        String test = "/fasdf";
 //        System.out.println(test.substring(1));
 
-        String url = "http://scv2.sh.hivoice.cn:80/service/iss?appendLength=1&wakeupword=%E5%B0%8F%E8%8C%82%E5%B0%8F%E8%8C%82&city=%E6%B7%B1%E5%9C%B3%E5%B8%82&appver=1.0.1&filterName=nlu3&screen=&platform=&audioUrl=false&viewid=&scenario=&udid=LTY2OTg5Mjk4NTAwNWE3YmU1ZTE3YmUxqq&dpi=&filterUrl=http%3A%2F%2F47.107.47.68%3A19998%2Fprocess%2Ftr%2FdataProcess&ver=3.2&method=iss.getTalk&gps=22.554349%2C113.948661&history=&oneshotKeyProperty=wakeup&additionalService=athenaAppService&voiceid=2fa3cfabce6ff4640889f5236ce5028f&appsig=7FF47E6F31169EDFCC4CA58E01613DC3A164E42F&fullDuplex=false&time=2019-03-2110%3A25%3A20&req_nlu_length=1&returnType=json";
-        String params = url.substring(0, url.indexOf("?"));
-//        for(String p:params.split("&")){
-//            System.out.println(p);
+//        String url = "http://scv2.sh.hivoice.cn:80/service/iss?appendLength=1&wakeupword=%E5%B0%8F%E8%8C%82%E5%B0%8F%E8%8C%82&city=%E6%B7%B1%E5%9C%B3%E5%B8%82&appver=1.0.1&filterName=nlu3&screen=&platform=&audioUrl=false&viewid=&scenario=&udid=LTY2OTg5Mjk4NTAwNWE3YmU1ZTE3YmUxqq&dpi=&filterUrl=http%3A%2F%2F47.107.47.68%3A19998%2Fprocess%2Ftr%2FdataProcess&ver=3.2&method=iss.getTalk&gps=22.554349%2C113.948661&history=&oneshotKeyProperty=wakeup&additionalService=athenaAppService&voiceid=2fa3cfabce6ff4640889f5236ce5028f&appsig=7FF47E6F31169EDFCC4CA58E01613DC3A164E42F&fullDuplex=false&time=2019-03-2110%3A25%3A20&req_nlu_length=1&returnType=json";
+//        String params = url.substring(0, url.indexOf("?"));
+////        for(String p:params.split("&")){
+////            System.out.println(p);
+////        }
+//        System.out.println(params.substring(0, params.length()-1));
+
+//        File file = new File("E:\\document\\yzs\\program\\班课学生上传模板.xlsx");
+//        List<String[]> list = ExcelReader.getExcelData(file, 1);
+//        for(String[] a:list){
+//            System.out.println(a[1]);
 //        }
-        System.out.println(params.substring(0, params.length()-1));
+
     }
+
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ExcelModel{
+
+        private String udid;
+
+        private String sessionId;
+    }
+
+
+
 
     public static void callableThreadTest(){
         TestThread t = new TestThread();
