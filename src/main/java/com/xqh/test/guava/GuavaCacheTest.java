@@ -40,7 +40,7 @@ public class GuavaCacheTest {
     private static LoadingCache<String, String> cache = CacheBuilder.newBuilder().maximumSize(1000)
 //            .refreshAfterWrite(3, TimeUnit.SECONDS)// 三秒刷新数据, 可以先获取旧的缓存值 返回.
             .expireAfterWrite(3, TimeUnit.SECONDS) // 3秒刷新数据, 所有线程阻塞等待 获取 刷新后的值
-            .expireAfterAccess(3, TimeUnit.SECONDS)
+//            .expireAfterAccess(10, TimeUnit.SECONDS) // 限定时间内 没有 访问 该数据, 会 执行异步 刷新缓存数据方法.
             .build(new CacheLoader<String, String>() {
                 @Override
                 public String load(String s) throws Exception {
@@ -71,12 +71,21 @@ public class GuavaCacheTest {
 
     public static void main(String[] args) {
         AtomicInteger idx = new AtomicInteger(0);
+        int j=0;
         while (true){
+            j++;
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+//            if(j == 10){
+//                try {
+//                    Thread.sleep(20000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
             for(int i = 0; i<2; i++){
                 new Thread(new ReadCacheThread(), "read-thread-"+idx.incrementAndGet()).start();
             }

@@ -29,10 +29,10 @@ public class CasrReqMain {
 //                }
 //            });
 //        }
-        reqPersonalDataService("LTE3Nzg0MjcyMTUwMDVhN2JlNWUxN2JlMQ");
+        reqPersonalDataService("LTE3Nzg0MjcyMTUwMDVhN2JlNWUxN2JlMQ11");
     }
 
-    private static final String casr_url = "http://192.168.3.239:8808/casr/upload";
+    private static final String casr_url = "http://192.168.3.240:8810/casr/upload";
 //    private static final String casr_url = "http://10.20.222.128:8282/casr/upload"; // 公有云test 地址
     public static void reqPersonalDataService(String udid) throws Exception{
         String appkey = "nmugoqugf3ikbhkhbaixhefxdinqcmgyhobsvjiv";
