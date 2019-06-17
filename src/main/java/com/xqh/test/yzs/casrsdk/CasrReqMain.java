@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @ClassName CasrReqMain
+ * @ClassName RtcReqMain
  * @Description CASR 请求sdk
  * @Author xuqianghui
  * @Date 2019/5/9 11:08
@@ -63,7 +63,7 @@ public class CasrReqMain {
                 "许仙志\n" +
                 "张大笨\n" +
                 "张三丰\n" +
-                "吴淞\n" +
+                "吴淞1\n" +
                 "</asr_contact>\n";
 
 //        String jsonstr =appkey + ";" + udid + "\n" +"<asr_contact>\n张三\n李四\n网络名称1\n网络名称2" +

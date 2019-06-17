@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
@@ -71,7 +73,18 @@ public class MainTest {
 //        for(String[] a:list){
 //            System.out.println(a[1]);
 //        }
+//        String str = "阔四你好\n" +
+//                "科视你好\n" +
+//                "你好科视\n" +
+//                "你好阔四\n";
+//        System.out.println(str.contains("\n"));
+//        System.out.println(JSON.toJSONString(str.split("\n")));
+//        String str = "D:\\TestSpace\\out.pcm";
+//        System.out.println(str.substring(str.lastIndexOf("\\")+1).replaceAll(".pcm", ""));
 
+//        String t = "最终幻想7";
+//        System.out.println(t.substring(0, t.lastIndexOf("7")));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
     }
 
 
