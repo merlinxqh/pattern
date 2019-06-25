@@ -1,6 +1,7 @@
 package com.xqh.test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.xqh.utils.ExcelReader;
 import lombok.AllArgsConstructor;
@@ -84,8 +85,17 @@ public class MainTest {
 
 //        String t = "最终幻想7";
 //        System.out.println(t.substring(0, t.lastIndexOf("7")));
-        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+//        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+//        long start = System.currentTimeMillis();
+//        Thread.sleep(1000);
+//        long end = System.currentTimeMillis();
+//        System.out.println(start);
+//        System.out.println(end);
+        JSONObject json = new JSONObject();
+        System.out.println(json.getString("a"));
+
     }
+
 
 
     @Data

@@ -12,12 +12,15 @@ import com.arronlong.httpclientutil.common.HttpResult;
 import com.arronlong.httpclientutil.common.SSLs.SSLProtocolVersion;
 import com.arronlong.httpclientutil.exception.HttpProcessException;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -37,14 +40,37 @@ public class HttpClientTest {
 
     public static void main(String[] args) throws HttpProcessException {
 
-        List<Map<String, Object>> mapList = Lists.newArrayList();
+//        List<Map<String, Object>> mapList = Lists.newArrayList();
+//
+//        List<User> userList = JSONArray.parseArray(JSON.toJSONString(mapList), User.class);
+//
+//        userList.sort((a,b)-> b.getDate().compareTo(a.getDate()));
+//        List<Map> mlist = JSONArray.parseArray(JSON.toJSONString(userList), Map.class);
+//        registerUser();
+        postFile();
 
-        List<User> userList = JSONArray.parseArray(JSON.toJSONString(mapList), User.class);
+    }
 
-        userList.sort((a,b)-> b.getDate().compareTo(a.getDate()));
-        List<Map> mlist = JSONArray.parseArray(JSON.toJSONString(userList), Map.class);
-        registerUser();
+    /**
+     * 文件上传 测试
+     */
+    public static void postFile(){
 
+        Map<String, Object> reqMap = Maps.newHashMap();
+        reqMap.put("file", new File("E:\\document\\yzs\\program\\世茂\\酒店项目\\接口文档\\设备测试.xlsx"));
+        reqMap.put("name", "ddd_name");
+        HttpConfig config = HttpConfig
+                .custom()
+                .url("http://localhost:9060/test/fileTest")
+                .method(HttpMethods.POST)
+                .map(reqMap)
+                ;
+        try {
+            HttpResult result = HttpClientUtil.sendAndGetResp(config);
+            System.out.println(result.getResult());
+        } catch (HttpProcessException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void queryUser() throws HttpProcessException {

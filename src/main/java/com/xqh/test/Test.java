@@ -1,5 +1,9 @@
 package com.xqh.test;
 
+import com.arronlong.httpclientutil.HttpClientUtil;
+import com.arronlong.httpclientutil.common.HttpConfig;
+import com.arronlong.httpclientutil.common.HttpMethods;
+import com.arronlong.httpclientutil.exception.HttpProcessException;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +18,7 @@ public class Test {
 
 	private static final String str="a";
 
-	public static void main(String[] args) throws UnsupportedEncodingException {
+	public static void main(String[] args) throws UnsupportedEncodingException, HttpProcessException, InterruptedException {
 //		List<Object> obj = new ArrayList<>();
 //		for(Object o : obj){
 //		}
@@ -23,8 +27,15 @@ public class Test {
 //		buildTestSign();
 //		System.out.println(URLEncoder.encode("+","UTF-8"));
 //        System.out.println(getCurrentUnixTimestamp());
-		String test = "abcd,dfasdf";
-		System.out.println(test.substring(test.indexOf(",")+1));
+//		String test = "abcd,dfasdf";
+		HttpConfig config = HttpConfig.custom()
+				.url("http://192.168.3.240:8811/testOpen?uri=object://mpRPCas9eDIiTcZ960GjTw==&deviceId=2&passPermitted=true")
+				.method(HttpMethods.POST);
+		for(int i = 0 ; i<3; i++){
+			HttpClientUtil.sendAndGetResp(config);
+			Thread.sleep(1500);
+		}
+//		System.out.println(test.substring(test.indexOf(",")+1));
 	}
 
 	public static void buildTestSign(){

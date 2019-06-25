@@ -19,6 +19,22 @@ import java.util.List;
 public class ReadMovieTxtTest {
 
     public static void main(String[] args) {
+//        readMovieFile();
+        readTestTxt();
+    }
+
+    public static void readTestTxt(){
+        File file = new File("E:\\document\\yzs\\program\\世茂\\酒店项目\\扫地机and空气净化器.txt");
+        List<String> list = ReadTxtFileUtils.readTxt(file);
+        for(String s:list){
+            System.out.println(s.substring(0, s.indexOf("service=")).trim());
+        }
+    }
+
+    /**
+     * 读取 影视 领域 文本
+     */
+    public static void readMovieFile(){
         File file = new File("E:\\document\\yzs\\program\\世茂\\酒店项目\\影视热词.txt");
         List<String> list = ReadTxtFileUtils.readTxt(file);
         List<String> movieList = Lists.newArrayList();
