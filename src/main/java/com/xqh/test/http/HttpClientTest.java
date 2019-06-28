@@ -57,17 +57,19 @@ public class HttpClientTest {
     public static void postFile(){
 
         Map<String, Object> reqMap = Maps.newHashMap();
-        reqMap.put("file", new File("E:\\document\\yzs\\program\\世茂\\酒店项目\\接口文档\\设备测试.xlsx"));
+//        reqMap.put("file", new File("E:\\document\\yzs\\program\\世茂\\酒店项目\\接口文档\\设备测试.xlsx"));
         reqMap.put("name", "ddd_name");
+        String[] filePaths = {"E:\\document\\yzs\\program\\世茂\\酒店项目\\接口文档\\设备测试.xlsx"};
         HttpConfig config = HttpConfig
                 .custom()
-                .url("http://localhost:9060/test/fileTest")
+                .url("http://localhost:9060/testFile")
                 .method(HttpMethods.POST)
+                .files(filePaths, "myFile", true)
                 .map(reqMap)
                 ;
         try {
-            HttpResult result = HttpClientUtil.sendAndGetResp(config);
-            System.out.println(result.getResult());
+            HttpClientUtil.upload(config);
+//            System.out.println(result.getResult());
         } catch (HttpProcessException e) {
             e.printStackTrace();
         }
