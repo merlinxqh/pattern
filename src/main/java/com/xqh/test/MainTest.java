@@ -2,19 +2,25 @@ package com.xqh.test;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.arronlong.httpclientutil.HttpClientUtil;
+import com.arronlong.httpclientutil.common.HttpConfig;
+import com.arronlong.httpclientutil.common.HttpHeader;
+import com.arronlong.httpclientutil.common.HttpMethods;
+import com.arronlong.httpclientutil.exception.HttpProcessException;
 import com.google.common.collect.Lists;
+import com.xqh.utils.EncryptUtils;
 import com.xqh.utils.ExcelReader;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.http.Header;
+import org.apache.tools.ant.taskdefs.condition.Http;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.FileCopyUtils;
 
 import javax.sound.midi.Soundbank;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -91,14 +97,44 @@ public class MainTest {
 //        long end = System.currentTimeMillis();
 //        System.out.println(start);
 //        System.out.println(end);
-        JSONObject json = new JSONObject();
-        System.out.println(json.getString("a"));
+//        JSONObject json = new JSONObject();
+//        System.out.println(json.getString("a"));
+
+//        System.out.println(EncryptUtils.base64Encode("object://5WcujHkJLW-TD3Otug9c80Ji4mOpJe1IhSTTboWpZN0="));
+        downloadTest();
 
     }
 
+    /**
+     * 获取请求头
+     * @return
+     */
+    public static Header[] getReqHeaders(){
+        return HttpHeader.custom()
+                .other("RbaToken", "vDr2DXrJDn1YYiGze2uGi26QujKKgGZUAjPvTDzgGGPbR5+omOwDOHizFf2MRl5xcJHWI1szE4sfoA8vOqSIhFTWwhdflZdGElvcS0XTyv3PBbdTTjfDoaNEPK0DQGTE")
+                .other("UserName", "unisound_test")
+                .build();
+    }
+
+    public static void downloadTest() {
+        String url = "http://192.168.3.248:58830/apiRba/entrancePassRecord/getImageByUri/hitImage?uriBase64=b2JqZWN0Oi8vNVdjdWpIa0pMVy1URDNPdHVnOWM4MEppNG1PcEplMUloU1RUYm9XcFpOMD0";
+        File downloadFile = new File("D:\\temp\\abcfffff.png");
+        try {
+            HttpConfig config = HttpConfig.custom()
+                    .method(HttpMethods.GET)
+                    .url(url)
+                    .headers(getReqHeaders())
+                    .out(new FileOutputStream(downloadFile));
+            HttpClientUtil.down(config);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (HttpProcessException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-    @Data
+        @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor

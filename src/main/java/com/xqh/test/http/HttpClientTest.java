@@ -47,8 +47,22 @@ public class HttpClientTest {
 //        userList.sort((a,b)-> b.getDate().compareTo(a.getDate()));
 //        List<Map> mlist = JSONArray.parseArray(JSON.toJSONString(userList), Map.class);
 //        registerUser();
-        postFile();
+//        postFile();
+        getTest();
+    }
 
+    public static void getTest() throws HttpProcessException {
+        String url = "http://localhost:9060/getTest?name=ttt";
+
+        Map<String, Object> reqMap = Maps.newHashMap();
+        reqMap.put("name", "testname");
+
+        HttpConfig config = HttpConfig.custom()
+                .url(url)
+                .method(HttpMethods.GET)
+                .map(reqMap);
+        HttpResult result = HttpClientUtil.sendAndGetResp(config);
+        System.out.println(result.getResult());
     }
 
     /**
