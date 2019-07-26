@@ -7,7 +7,10 @@ import com.arronlong.httpclientutil.common.HttpConfig;
 import com.arronlong.httpclientutil.common.HttpHeader;
 import com.arronlong.httpclientutil.common.HttpMethods;
 import com.arronlong.httpclientutil.exception.HttpProcessException;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.xqh.utils.EncryptUtils;
 import com.xqh.utils.ExcelReader;
 import lombok.AllArgsConstructor;
@@ -23,6 +26,7 @@ import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -101,7 +105,32 @@ public class MainTest {
 //        System.out.println(json.getString("a"));
 
 //        System.out.println(EncryptUtils.base64Encode("object://5WcujHkJLW-TD3Otug9c80Ji4mOpJe1IhSTTboWpZN0="));
-        downloadTest();
+//        downloadTest();
+
+//        System.out.println(IdWorker.getId());
+//
+//        System.out.println(IdWorker.getIdStr());
+//
+//        String str = "#";
+//
+//        String test = "abcd".concat(str).concat("sdafsdgg");
+//        System.out.println(test);
+//        System.out.println(test.split(str)[1]);
+
+        Map<String, Object> reqMap = Maps.newHashMap();
+        reqMap.put("token", "tokenddasdf");
+
+        Map<String, Object> jsonMap = Maps.newHashMap();
+        reqMap.put("name", "1111");
+        reqMap.put("name2", "2222");
+        HttpConfig config = HttpConfig.custom()
+                .method(HttpMethods.POST)
+                .url("http://localhost:8813/test")
+                .json(JSON.toJSONString(jsonMap))
+                .map(reqMap)
+                ;
+        System.out.println("========>"+JSON.toJSONString(config.map()));
+        HttpClientUtil.sendAndGetResp(config);
 
     }
 
@@ -111,14 +140,14 @@ public class MainTest {
      */
     public static Header[] getReqHeaders(){
         return HttpHeader.custom()
-                .other("RbaToken", "vDr2DXrJDn1YYiGze2uGi26QujKKgGZUAjPvTDzgGGPbR5+omOwDOHizFf2MRl5xcJHWI1szE4sfoA8vOqSIhFTWwhdflZdGElvcS0XTyv3PBbdTTjfDoaNEPK0DQGTE")
+                .other("RbaToken", "vDr2DXrJDn1YYiGze2uGi26QujKKgGZUAjPvTDzgGGPbR5+omOwDOHizFf2MRl5xIUBCLJGvx4ymAQvYeg9C+RjbawCMYEQRUF9pr1luZww6w4sgTaraj3wGBbtECq7p")
                 .other("UserName", "unisound_test")
                 .build();
     }
 
     public static void downloadTest() {
-        String url = "http://192.168.3.248:58830/apiRba/entrancePassRecord/getImageByUri/hitImage?uriBase64=b2JqZWN0Oi8vNVdjdWpIa0pMVy1URDNPdHVnOWM4MEppNG1PcEplMUloU1RUYm9XcFpOMD0";
-        File downloadFile = new File("D:\\temp\\abcfffff.png");
+        String url = "http://192.168.3.248:58830/apiRba/entrancePassRecord/getImageByUri/hitImage??uriBase64=b2JqZWN0Oi8vNVdjdWpIa0pMVy1URDNPdHVnOWM4NktuWUs3Z0Rjb3JNaXhIbXV4RzFKWT0";
+        File downloadFile = new File("D:\\temp\\eeeee.png");
         try {
             HttpConfig config = HttpConfig.custom()
                     .method(HttpMethods.GET)

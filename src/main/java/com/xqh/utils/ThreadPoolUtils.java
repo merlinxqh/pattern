@@ -10,9 +10,9 @@ public class ThreadPoolUtils {
 
     private static ExecutorService executor;
 
-    private static final int COOL_SIZE=10;//核心线程数量
+    private static final int COOL_SIZE=100;//核心线程数量
 
-    private static final int MAX_SIZE=100;//最大线程数量
+    private static final int MAX_SIZE=200;//最大线程数量
 
     private static final int BLOCK_QUEUE_SIZE=3000*10*10*10;//等待队列
 

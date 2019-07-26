@@ -20,6 +20,14 @@ public class StringIntern {
      * @param args
      */
     public static void main(String[] args) throws IOException {
+        String str = new String("shot in the dark");
+        String str2 = new String("shot in the dark");
+//        String intern = str.intern();
+        String str3 = str.intern();
+        String str4 = str2.intern();
+
+        System.out.println(str2 == str);
+        System.out.println(str3 == str2);
 //        String str1 = new StringBuilder("计算机").append("软件").toString();
 //        String str3 = "计算机软件";
 //

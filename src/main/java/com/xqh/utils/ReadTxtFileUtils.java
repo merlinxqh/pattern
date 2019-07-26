@@ -21,6 +21,30 @@ import java.util.List;
 public class ReadTxtFileUtils {
 
     /**
+     * 写入数据 到txt
+     * @param list
+     * @param txtFile
+     */
+    public static void writeToTxt(List<String> list, String txtFile){
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(txtFile);//创建文本文件
+            for(String f:list){
+                fileWriter.write(f+"\r\n");//写入 \r\n换行
+            }
+            fileWriter.flush();
+        } catch (IOException e) {
+            log.error("", e);
+        }finally {
+            try {
+                fileWriter.close();
+            } catch (IOException e) {
+                log.error("", e);
+            }
+        }
+    }
+
+    /**
      * 读取txt文件
      * @param file
      * @return
