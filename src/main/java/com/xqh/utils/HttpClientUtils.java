@@ -67,6 +67,10 @@ public class HttpClientUtils {
 
     }
 
+    public static void main(String[] args) throws HttpProcessException {
+        getIssue();
+    }
+
     public static void getIssue() throws HttpProcessException {
         String url = "https://www.mtc46.com/lottery/getNextIssue.do?gameId=65&_t="+ (new Date().getTime());
         Header[] headers = HttpHeader.custom()
@@ -96,10 +100,19 @@ public class HttpClientUtils {
     }
 
 
-    public static void main(String[] args) throws HttpProcessException {
+    public static void main111(String[] args) throws HttpProcessException {
 //        login8048();
-        String str = "09:00-23:00";
-        System.out.println(str.indexOf("-"));
+
+        String url = "https://c8084.com/member/period?lottery=BJKL8&_=1558530873803";
+        Header[] headers = HttpHeader.custom()
+                .cookie("80ee0819ce4f=70d610236ca02f5e4f0c2cd7b6f46a2dfbeb12cb; _skin_=red; defaultLT=BJKL8; affid=null; token=70d610236ca02f5e4f0c2cd7b6f46a2dfbeb12cb")
+                .build();
+//        url = url.concat("?_"+new Date().getTime()).concat("&lottery=BJKL8");
+        HttpConfig config = HttpConfig.custom().url(url)
+                .timeout(10*1000)
+                .headers(headers);
+        String resp = HttpClientUtil.get(config);
+        System.out.println(resp);
     }
 
     public static void login8048() throws HttpProcessException {

@@ -23,8 +23,19 @@ public class Test {
 //		buildTestSign();
 //		System.out.println(URLEncoder.encode("+","UTF-8"));
 //        System.out.println(getCurrentUnixTimestamp());
-		String test = "abcd,dfasdf";
-		System.out.println(test.substring(test.indexOf(",")+1));
+		List<String> list = Arrays.asList("1", "a", "d", "h", "ff");
+		for(int i = 0 ;i < 100; i++){
+			getRandom(list);
+//			System.out.println(getRandom(list));
+		}
+	}
+
+
+	public static String getRandom(List<String> list){
+		Random random = new Random();
+		int idx = random.nextInt(list.size());
+		System.out.println(idx);
+		return list.get(idx);
 	}
 
 	public static void buildTestSign(){
