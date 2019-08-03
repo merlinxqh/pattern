@@ -31,12 +31,16 @@ public class ExcelExportUtil {
 	 * @throws IOException
 	 */
 	public static File export(String[] headers, String[] properties, List data, boolean isMap){
+		String filepath = System.getProperty("java.io.tmpdir") + File.separatorChar + System.currentTimeMillis()+""+ new Random().nextInt();
+		return export(headers, properties, data, isMap, filepath);
+	}
+
+	public static File export(String[] headers, String[] properties, List data, boolean isMap, String filepath){
 		FileOutputStream o = null;
 		File file = null;
 		try {
 			//创建工作薄
 			SXSSFWorkbook workBook = null;
-			String filepath = System.getProperty("java.io.tmpdir") + File.separatorChar + System.currentTimeMillis()+""+ new Random().nextInt();
 			workBook = new SXSSFWorkbook(200);//超过两百行放入就放入磁盘，否则在内存中
 			filepath += ".xlsx";
 			file = new File(filepath);
@@ -48,20 +52,20 @@ public class ExcelExportUtil {
 			o = new FileOutputStream(file);
 			workBook.write(o);
 
-        } catch (Exception ex) {
-        	logger.error("导出时构造文件出错："+ex.getMessage());
-        } finally {
-            try {
+		} catch (Exception ex) {
+			logger.error("导出时构造文件出错："+ex.getMessage());
+		} finally {
+			try {
 				o.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-            try {
+			try {
 				o.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-        }
+		}
 
 		return file;
 	}

@@ -1,6 +1,4 @@
-package com.xqh.test.casrsdk;
-
-import com.xqh.utils.ThreadPoolUtils;
+package com.xqh.test.yzs.casrsdk;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -12,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @ClassName CasrReqMain
+ * @ClassName RtcReqMain
  * @Description CASR 请求sdk
  * @Author xuqianghui
  * @Date 2019/5/9 11:08
@@ -31,10 +29,10 @@ public class CasrReqMain {
 //                }
 //            });
 //        }
-        reqPersonalDataService("LTE3Nzg0MjcyMTUwMDVhN2JlNWUxN2JlMQ");
+        reqPersonalDataService("LTE3Nzg0MjcyMTUwMDVhN2JlNWUxN2JlMQ11");
     }
 
-    private static final String casr_url = "http://192.168.3.239:8808/casr/upload";
+    private static final String casr_url = "http://192.168.3.240:8810/casr/upload";
 //    private static final String casr_url = "http://10.20.222.128:8282/casr/upload"; // 公有云test 地址
     public static void reqPersonalDataService(String udid) throws Exception{
         String appkey = "nmugoqugf3ikbhkhbaixhefxdinqcmgyhobsvjiv";
@@ -60,12 +58,12 @@ public class CasrReqMain {
                 "王小\n" +
                 "郭靖\n" +
                 "李立\n" +
-                "黄蓉\n" +
+                "杨白劳\n" +
                 "杨大奇\n" +
                 "许仙志\n" +
                 "张大笨\n" +
                 "张三丰\n" +
-                "吴淞\n" +
+                "吴淞1\n" +
                 "</asr_contact>\n";
 
 //        String jsonstr =appkey + ";" + udid + "\n" +"<asr_contact>\n张三\n李四\n网络名称1\n网络名称2" +

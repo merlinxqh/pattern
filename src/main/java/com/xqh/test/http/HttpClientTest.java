@@ -1,17 +1,27 @@
 package com.xqh.test.http;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.arronlong.httpclientutil.HttpClientUtil;
 import com.arronlong.httpclientutil.builder.HCB;
 import com.arronlong.httpclientutil.common.HttpConfig;
 import com.arronlong.httpclientutil.common.HttpHeader;
+import com.arronlong.httpclientutil.common.HttpMethods;
 import com.arronlong.httpclientutil.common.HttpResult;
 import com.arronlong.httpclientutil.common.SSLs.SSLProtocolVersion;
 import com.arronlong.httpclientutil.exception.HttpProcessException;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 
 /**
  * @ClassName HttpClientTest
@@ -22,7 +32,123 @@ import java.util.Map;
  */
 public class HttpClientTest {
 
+    private static final String registerUrl = "http://a1.easemob.com/1112190521216199/smart-vds/users";
+
+    private static final String getUsersUrl = "http://a1.easemob.com/1112190521216199/smart-vds/users";
+
+    private static final String getSingleUserUrl = "http://a1.easemob.com/1112190521216199/smart-vds/users/%s";
+
     public static void main(String[] args) throws HttpProcessException {
+
+//        List<Map<String, Object>> mapList = Lists.newArrayList();
+//
+//        List<User> userList = JSONArray.parseArray(JSON.toJSONString(mapList), User.class);
+//
+//        userList.sort((a,b)-> b.getDate().compareTo(a.getDate()));
+//        List<Map> mlist = JSONArray.parseArray(JSON.toJSONString(userList), Map.class);
+//        registerUser();
+//        postFile();
+        getTest();
+    }
+
+    public static void getTest() throws HttpProcessException {
+        String url = "http://localhost:9060/getTest?name=ttt";
+
+        Map<String, Object> reqMap = Maps.newHashMap();
+        reqMap.put("name", "testname");
+
+        HttpConfig config = HttpConfig.custom()
+                .url(url)
+                .method(HttpMethods.GET)
+                .map(reqMap);
+        HttpResult result = HttpClientUtil.sendAndGetResp(config);
+        System.out.println(result.getResult());
+    }
+
+    /**
+     * 文件上传 测试
+     */
+    public static void postFile(){
+
+        Map<String, Object> reqMap = Maps.newHashMap();
+//        reqMap.put("file", new File("E:\\document\\yzs\\program\\世茂\\酒店项目\\接口文档\\设备测试.xlsx"));
+        reqMap.put("name", "ddd_name");
+        String[] filePaths = {"E:\\document\\yzs\\program\\世茂\\酒店项目\\接口文档\\设备测试.xlsx"};
+        HttpConfig config = HttpConfig
+                .custom()
+                .url("http://localhost:9060/testFile")
+                .method(HttpMethods.POST)
+                .files(filePaths, "myFile", true)
+                .map(reqMap)
+                ;
+        try {
+            HttpClientUtil.upload(config);
+//            System.out.println(result.getResult());
+        } catch (HttpProcessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void queryUser() throws HttpProcessException {
+        HttpConfig config = HttpConfig.custom().headers(getReqHeader())
+                .url(getUsersUrl)
+                .method(HttpMethods.GET)
+                .json(getReqString());
+        HttpResult respResult = HttpClientUtil.sendAndGetResp(config);
+        System.out.println("返回结果："+respResult.getResult());
+        System.out.println("返回StatusCode："+respResult.getStatusCode());
+    }
+
+    /**
+     * 注册用户
+     * @throws HttpProcessException
+     */
+    public static void registerUser() throws HttpProcessException {
+        HttpConfig config = HttpConfig.custom().headers(getReqHeader())
+                .url(registerUrl)
+                .method(HttpMethods.POST)
+                .json(getReqString());
+        HttpResult respResult = HttpClientUtil.sendAndGetResp(config);
+        System.out.println("返回结果："+respResult.getResult());
+        System.out.println("返回StatusCode："+respResult.getStatusCode());
+    }
+
+    public static String getReqString(){
+        List<User> users = Lists.newArrayList();
+        users.add(User.builder()
+                .username("1127493044680060939")
+                .password("123456")
+                .build());
+        return JSON.toJSONString(users);
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    public static class User{
+        private String username;
+
+        private String password;
+
+        private Date date;
+    }
+
+
+    /**
+     * 获取 请求头 数据
+     * @return
+     */
+    public static Header[] getReqHeader(){
+        String token = "YWMt91A52nxuEemaxdWWHZjYtwAAAAAAAAAAAAAAAAAAAAEfVKrQe6oR6aphj0sr7WsEAgMAAAFq3r4m4gBPGgDmONXvIbUeofBuJ7OZtt2vyVe4kwyAGVGQMAOgOn_gbg";
+        return HttpHeader.custom()
+                .contentType("application/json")
+                .authorization("Bearer ".concat(token))
+                .build();
+    }
+
+
+
+    public static void main111(String[] args) throws HttpProcessException {
 
         String url = "http://localhost:8088/casr/upload";
 //        String url = "http://192.168.3.239:8181/importHotData";
