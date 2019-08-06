@@ -16,6 +16,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -40,6 +41,25 @@ public class EncryptUtils {
     private final static String CHARSET_NAME = "UTF-8";
 
     private final static String ENCRYPT_AES = "AES";
+
+    public static String urlDecode(String str){
+        try {
+            return  URLDecoder.decode(str, CHARSET_NAME);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return str;
+    }
+
+    public static String urlEncode(String str){
+        try {
+            return URLEncoder.encode(str, CHARSET_NAME);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * base64 编码
