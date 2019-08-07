@@ -1,5 +1,6 @@
 package com.xqh.test.yzs;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sun.media.jfxmedia.logging.Logger;
@@ -33,7 +34,35 @@ public class CheckAudioTest {
         List<String> errorData = Lists.newArrayList();
 //
         wrapperMethod("2019-08-05", errorData);
+        wrapperMethod("2019-08-04", errorData);
+        wrapperMethod("2019-08-03", errorData);
+        wrapperMethod("2019-08-02", errorData);
+        wrapperMethod("2019-08-01", errorData);
+        wrapperMethod("2019-07-31", errorData);
+        wrapperMethod("2019-07-30", errorData);
+        wrapperMethod("2019-07-29", errorData);
+        wrapperMethod("2019-07-28", errorData);
+        wrapperMethod("2019-07-27", errorData);
+        wrapperMethod("2019-07-26", errorData);
+        wrapperMethod("2019-07-25", errorData);
+        wrapperMethod("2019-07-24", errorData);
+        wrapperMethod("2019-07-23", errorData);
+        wrapperMethod("2019-07-22", errorData);
+        wrapperMethod("2019-07-21", errorData);
+        wrapperMethod("2019-07-20", errorData);
+        wrapperMethod("2019-07-19", errorData);
+        wrapperMethod("2019-07-18", errorData);
+        wrapperMethod("2019-07-17", errorData);
+        wrapperMethod("2019-07-16", errorData);
+        wrapperMethod("2019-07-15", errorData);
+        wrapperMethod("2019-07-14", errorData);
+        wrapperMethod("2019-07-13", errorData);
+        wrapperMethod("2019-07-12", errorData);
+        wrapperMethod("2019-07-11", errorData);
+        wrapperMethod("2019-07-10", errorData);
+        wrapperMethod("2019-07-09", errorData);
 
+        System.out.println("error data "+ JSON.toJSONString(errorData));
 
     }
 
@@ -45,7 +74,6 @@ public class CheckAudioTest {
     public static void findNotExistsAudio(String filePath, String excelPath, List<String> errorData, String newExcelName){
         List<String> fileList = getFileList(tmp_path.concat(filePath));
 
-        boolean flag = false; //标识 是否需要重新生成excel
         List<String[]> excelData = ExcelReader.getExcelData(new File(tmp_path.concat(excelPath)), 1);
 
         List<Map<String, Object>> newExcel = Lists.newArrayList();
@@ -59,17 +87,12 @@ public class CheckAudioTest {
                 map.put("date", array[3]);
                 if(!fileList.contains(array[2])){
                     errorData.add(array[2]);
-                    flag = true;
                 }else{
                     newExcel.add(map);
                     if(!text.equals(filter_str)){
                         FutureTask<String> future = new FutureTask<>(new ReqNluThread(text));
                         ThreadPoolUtils.submit(future);
-                        try {
-                            map.put("nluRet", future.get());
-                        } catch (InterruptedException e) {
-                        } catch (ExecutionException e) {
-                        }
+                        map.put("future", future);
                     }else {
                         map.put("nluRet", filter_str);
                     }
@@ -77,13 +100,22 @@ public class CheckAudioTest {
             }
         }
 
-        if(flag){
-            // 重新生成excel
-            String[] headers = new String[]{"文本", "nlu结果", "udid", "mp3名称", "时间"};
-            String[] properties = new String[]{"text", "nluRet", "udid", "mp3", "date"};
-            String newFile = tmp_path.concat(newExcelName);
-            ExcelExportUtil.export(headers, properties, newExcel, true, newFile);
+        for(Map<String, Object> map:newExcel){
+            if(map.containsKey("future")){
+                FutureTask<String> future = (FutureTask<String>) map.get("future");
+                try {
+                    map.put("nluRet", future.get());
+                } catch (Exception e) {
+                    System.out.println("error"+e.getMessage());
+                }
+            }
         }
+
+        // 重新生成excel
+        String[] headers = new String[]{"文本", "nlu结果", "udid", "mp3名称", "时间"};
+        String[] properties = new String[]{"text", "nluRet", "udid", "mp3", "date"};
+        String newFile = tmp_path.concat(newExcelName);
+        ExcelExportUtil.export(headers, properties, newExcel, true, newFile);
 
     }
 

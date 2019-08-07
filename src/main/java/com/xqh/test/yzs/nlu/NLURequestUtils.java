@@ -24,11 +24,11 @@ public class NLURequestUtils {
 
     private final static String nluReqParams = "appendLength=1&appver=1.0.1&filterName=nlu3&screen=&platform=&audioUrl=false&viewid=&scenario=hotelDefault&udid=LTE3Nzg0MjcyMTUwMDVhN2JlNWUxN2JlMQ&dpi=&filterUrl=http%3A%2F%2F47.107.47.68%3A19998%2Fprocess%2F%2Ftr%2FdataProcess&ver=3.2&method=iss.getTalk&gps=22.55428%2C113.948524&history=&oneshotKeyProperty=wakeup&additionalService=athenaAppService&voiceid=8a44654f6482a9e348e7d198fe5f7383&appsig=031F6557A74DDB60008A13BE78C442A323428394&fullDuplex=false&appkey=nmugoqugf3ikbhkhbaixhefxdinqcmgyhobsvjiv&time=2019-07-2211%3A04%3A28&req_nlu_length=1&returnType=json";
 
-    private final static String appKey = "nmugoqugf3ikbhkhbaixhefxdinqcmgyhobsvjiv";
+    private final static String appKey = "";
 
-    private final static String appSecret = "ea5d2f4793aa48dfdb67d29aae506843";
+    private final static String appSecret = "";
 
-    private final static String nluUrl = "http://scv2.sh.hivoice.cn:80/service/iss";
+    private final static String nluUrl = "";
 
     /**
      * 执行 nlu 请求线程

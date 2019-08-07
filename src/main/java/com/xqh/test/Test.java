@@ -27,6 +27,19 @@ public class Test {
 //		buildTestSign();
 //		System.out.println(URLEncoder.encode("+","UTF-8"));
 //        System.out.println(getCurrentUnixTimestamp());
+		List<String> list = Arrays.asList("1", "a", "d", "h", "ff");
+		for(int i = 0 ;i < 100; i++){
+			getRandom(list);
+//			System.out.println(getRandom(list));
+		}
+	}
+
+
+	public static String getRandom(List<String> list){
+		Random random = new Random();
+		int idx = random.nextInt(list.size());
+		System.out.println(idx);
+		return list.get(idx);
 //		String test = "abcd,dfasdf";
 //		HttpConfig config = HttpConfig.custom()
 //				.url("http://192.168.3.240:8811/testOpen?uri=object://mpRPCas9eDIiTcZ960GjTw==&deviceId=2&passPermitted=true")
@@ -36,8 +49,8 @@ public class Test {
 //			Thread.sleep(1500);
 //		}
 //		System.out.println(test.substring(test.indexOf(",")+1));
-		String str = "abc,ddd";
-		System.out.println(str.substring(0, str.indexOf(",")));
+//		String str = "abc,ddd";
+//		System.out.println(str.substring(0, str.indexOf(",")));
 	}
 
 	public static void buildTestSign(){
