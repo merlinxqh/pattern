@@ -1,6 +1,7 @@
 package com.xqh.test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.arronlong.httpclientutil.HttpClientUtil;
 import com.arronlong.httpclientutil.common.HttpConfig;
@@ -11,8 +12,10 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.xqh.utils.DateUtil;
 import com.xqh.utils.EncryptUtils;
 import com.xqh.utils.ExcelReader;
+import com.xqh.utils.ReadTxtFileUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,10 +28,9 @@ import org.springframework.util.FileCopyUtils;
 import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
@@ -37,7 +39,7 @@ import java.util.stream.Collectors;
  * Created by leo on 2017/12/15.
  */
 public class MainTest {
-    public static void main(String[] args) throws Exception {
+    public static void main2(String[] args) throws Exception {
 //        String key="obj.objItem.key";
 //        System.out.println(key.substring(key.indexOf(".")+1));
         /**
@@ -132,6 +134,75 @@ public class MainTest {
         System.out.println("========>"+JSON.toJSONString(config.map()));
         HttpClientUtil.sendAndGetResp(config);
 
+    }
+
+    public static void main(String[] args) {
+        System.out.println(IdWorker.get32UUID());
+//        String str = "我是一个兵";
+//        String unicode = "\\u597D\\u7684\\uFF0C\\u5DF2\\u4E3A\\u60A8\\u8054\\u7CFB\\u524D\\u53F0";
+//        try {
+//            System.out.println(EncryptUtils.urlDecode("%E4%BD%A0%E6%98%AF%E5%82%BB%E9%80%BC%E5%90%97%EF%BC%8C"));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        int yearStart = 2000;
+//        int yearEnd = 2099;
+//
+//        List<DateModel> retList = new ArrayList<>();// 输出 json 对象
+//        int idx = 0;
+//        // 循环年
+//        for(int i = yearStart; i <= yearEnd; i++){
+//            idx ++;
+//            String year = String.valueOf(i);
+//            DateModel c = DateModel.builder()
+//                    .id(idx)
+//                    .value(year)
+//                    .build();
+//            // 处理 月份
+//            List<DateModel> months = new ArrayList<>();
+//            for(int j = 1; j <= 12; j ++){
+//                String mStr = j < 10 ? ("0"+j) : String.valueOf(j); //月份
+//                DateModel m = DateModel.builder()
+//                        .id(j)
+//                        .value(mStr)
+//                        .build();
+//                months.add(m);
+//
+//                // 处理天
+//                List<DateModel> days = new ArrayList<>();
+//                // 获取 当月 有多少天
+//                String lastDay = DateUtil.getLastDayOfMonth(year, mStr);
+//                int last = Integer.parseInt(lastDay.substring(lastDay.lastIndexOf("-")+1));
+//                for(int k = 1; k <= last; k++){
+//                    String dStr = k < 10 ? ("0"+k) : String.valueOf(k);
+//                    DateModel d = DateModel.builder()
+//                            .id(k)
+//                            .value(dStr)
+//                            .build();
+//                    days.add(d);
+//                }
+//                m.setChilds(days);
+//
+//
+//            }
+//
+//            c.setChilds(months);
+//            retList.add(c);
+//        }
+//
+//        ReadTxtFileUtils.writeToTxt(Arrays.asList(JSON.toJSONString(retList)), "E:\\secureCRT_file\\download\\result.txt");
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DateModel{
+        private int id;
+
+        private String value;
+
+        private List<DateModel> childs;
     }
 
     /**

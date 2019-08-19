@@ -30,6 +30,11 @@ public class CheckAudioTest {
     private final static String filter_str = "----";
 
     public static void main(String[] args) {
+        String str = "asdfa/asdfg/asdfasdfgggg.jpg";
+        System.out.println(str.substring(str.lastIndexOf("/")));
+    }
+
+    public static void main22(String[] args) {
 
         List<String> errorData = Lists.newArrayList();
 //
