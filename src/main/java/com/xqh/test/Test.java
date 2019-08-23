@@ -51,7 +51,17 @@ public class Test {
 				e.printStackTrace();
 			}
 		}
+//		String test = "abcd,dfasdf";
+//		HttpConfig config = HttpConfig.custom()
+//				.url("http://192.168.3.240:8811/testOpen?uri=object://mpRPCas9eDIiTcZ960GjTw==&deviceId=2&passPermitted=true")
+//				.method(HttpMethods.POST);
+//		for(int i = 0 ; i<3; i++){
+//			HttpClientUtil.sendAndGetResp(config);
+//			Thread.sleep(1500);
+//		}
 //		System.out.println(test.substring(test.indexOf(",")+1));
+//		String str = "abc,ddd";
+//		System.out.println(str.substring(0, str.indexOf(",")));
 	}
 
 	public static void buildTestSign(){

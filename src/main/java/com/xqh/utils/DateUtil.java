@@ -258,6 +258,12 @@ public class DateUtil {
     return firstDayOfMonth;
   }
 
+  public static void main(String[] args) {
+    System.out.println(getLastDayOfMonth("2019", "01"));
+    String date = "2019-01-31";
+    System.out.println(date.substring(date.lastIndexOf("-")));
+  }
+
   /**
    * 获得该月最后一天
    * @param month
