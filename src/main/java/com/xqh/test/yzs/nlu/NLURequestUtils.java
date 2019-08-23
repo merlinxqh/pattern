@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.xqh.test.yzs.yinpin.TalkParameterNames;
 import com.xqh.utils.EncryptUtils;
 import com.xqh.utils.HttpClientUtils;
+import com.xqh.utils.ThreadPoolUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -28,7 +29,8 @@ public class NLURequestUtils {
 
     private final static String appSecret = "ea5d2f4793aa48dfdb67d29aae506843";
 
-    private final static String nluUrl = "http://route.igaicloud.cn:8088/service/iss";
+    private final static String nluUrl = "http://scv2.sh.hivoice.cn:80/service/iss";
+//    private final static String nluUrl = "http://route.igaicloud.cn:8088/service/iss";
 
     /**
      * 执行 nlu 请求线程
@@ -61,6 +63,15 @@ public class NLURequestUtils {
             log.info("req nlu url ==>{}", reqUrl);
             String resp = HttpClientUtils.get(reqUrl);
             return resp;
+        }
+    }
+
+    public static void main(String[] args) {
+        String text = "关灯";
+        try {
+            new ReqNluThread(text).call();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
