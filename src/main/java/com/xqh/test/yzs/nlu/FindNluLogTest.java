@@ -6,18 +6,21 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xqh.utils.DateUtil;
 import com.xqh.utils.ExcelExportUtil;
+import com.xqh.utils.ExcelReader;
 import com.xqh.utils.ReadTxtFileUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import scala.util.matching.Regex;
 import scala.util.matching.Regex.Match;
 
 import java.awt.datatransfer.FlavorListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -38,22 +41,60 @@ public class FindNluLogTest {
 
     private static String pattern = "yyyy-MM-dd HH:mm:ss";
 
-    private static Date start = DateUtil.parseDate("2019-08-22 22:00:00", pattern);
-    private static Date end = DateUtil.parseDate("2019-08-23 01:30:00", pattern);
+    private static Date start = DateUtil.parseDate("2019-08-23 00:00:00", pattern);
+
+    private static Date end = DateUtil.parseDate("2019-08-23 23:59:59", pattern);
 
     private static Map<String, MatchResult> logMap = Maps.newConcurrentMap();
 
     private static List<String> udidList = Arrays.asList(
-            "LTE3Nzg0MjcyMTUwMEVDRTE1NEYwMjZCRA",
-            "LTY2OTg5Mjk4NTAwRUNFMTU0RjAyNkM1",
-            "LTY2OTg5Mjk4NTAwRUNFMTU0RjAyNkJE",
-            "LTE3Nzg0MjcyMTUwMEVDRTE1NEYwMjZDNQ");
+            "LTY2OTg5Mjk4NTAwRUNFMTU0RjAyNkMz",
+            "LTY2OTg5Mjk4NTAwRUNFMTU0RjAyNkM4",
+            "LTY2OTg5Mjk4NTAwRUNFMTU0RjAwMzQw",
+            "LTY2OTg5Mjk4NTAwRUNFMTU0RjAyNjkx",
+            "LTE3Nzg0MjcyMTUwMEVDRTE1NEYwMjY5MQ",
+            "LTE3Nzg0MjcyMTUwMEVDRTE1NEYwMjZDMw",
+            "LTE3Nzg0MjcyMTUwMEVDRTE1NEYwMjIxRA");
+//    private static List<String> udidList = Arrays.asList(
+//            "LTE3Nzg0MjcyMTUwMEVDRTE1NEYwMjZCRA",
+//            "LTY2OTg5Mjk4NTAwRUNFMTU0RjAyNkM1",
+//            "LTY2OTg5Mjk4NTAwRUNFMTU0RjAyNkJE",
+//            "LTE3Nzg0MjcyMTUwMEVDRTE1NEYwMjZDNQ");
 
     private final static String regex = "(\\[).*?(\\])";
 
+    private final static String out_path = "E:\\document\\secureCRT\\4222-23-24.txt";
+
+    private final static String audio_path = "E:\\document\\secureCRT\\audio";
+
+    private static Map<String, File> mp3Map = Maps.newHashMap();
+
     public static void main(String[] args) {
 //        filterLogByTime();
-        exportExcel();
+//        exportExcel(out_path);
+        initMp3Map();
+        matchMp3("E:\\document\\secureCRT\\4001-21-22");
+        matchMp3("E:\\document\\secureCRT\\4018-21-22");
+        matchMp3("E:\\document\\secureCRT\\4101-21-23");
+        matchMp3("E:\\document\\secureCRT\\4118-22-23");
+        matchMp3("E:\\document\\secureCRT\\4201-23-24");
+        matchMp3("E:\\document\\secureCRT\\4205-23-24");
+        matchMp3("E:\\document\\secureCRT\\4222-23-24");
+    }
+
+    public static void initMp3Map(){
+        File audioDir = new File(audio_path);
+        for(File date:audioDir.listFiles()){
+            for(File audio:date.listFiles()){
+                if(audio.getName().equals("mp3")){
+                    for(File mp3:audio.listFiles()){
+                        String name = mp3.getName().replaceAll(".mp3", "");
+                        System.out.println("====>"+name);
+                        mp3Map.put(name, mp3);
+                    }
+                }
+            }
+        }
 
     }
 
@@ -71,7 +112,7 @@ public class FindNluLogTest {
 
 
     public static void filterLogByTime(){
-        List<String> list = ReadTxtFileUtils.readTxt(new File("E:\\secureCRT_file\\download\\webapi_debug.log"));
+        List<String> list = getFileList("E:\\document\\secureCRT\\webapi_debug.log.1", "E:\\document\\secureCRT\\webapi_debug.log");
         List<String> writeList = Lists.newArrayList();
         for(String str:list){
             if(StringUtils.hasText(str) && str.length() > 19){
@@ -87,16 +128,63 @@ public class FindNluLogTest {
                 }
             }
         }
-        String outTxt = "E:\\secureCRT_file\\download\\out.txt";
-        ReadTxtFileUtils.writeToTxt(writeList, outTxt);
+        ReadTxtFileUtils.writeToTxt(writeList, out_path);
+    }
+
+    /**
+     * 匹配mp3
+     * @param filePath
+     */
+    public static void matchMp3(String filePath){
+        File dir = new File(filePath);
+        File excel = null;// 找到excel文件
+        for(File file:dir.listFiles()){
+            if(file.getName().endsWith(".xlsx")){
+                excel = file;
+            }
+        }
+
+        //创建音频目录
+        String audioDir = filePath.concat(File.separator).concat("audio");
+        File dirFile = new File(audioDir);
+        if(!dirFile.exists()){
+            dirFile.mkdir();
+        }
+        List<String[]> excelData = ExcelReader.getExcelData(excel, 1);
+        for(String[] array:excelData){
+            if(Objects.nonNull(array) && array.length >= 5 && StringUtils.hasText(array[2])){
+                String requestId = array[2];
+                if(mp3Map.containsKey(requestId)){
+                    File file = mp3Map.get(requestId);
+                    try {
+                        FileCopyUtils.copy(file, new File(audioDir.concat(File.separator).concat(requestId+".mp3")));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据 文件名 获取 文本数据
+     * @param fileNames
+     * @return
+     */
+    public static List<String> getFileList(String... fileNames){
+        List<String> retList = Lists.newArrayList();
+        for(String file:fileNames){
+            retList.addAll(ReadTxtFileUtils.readTxt(new File(file)));
+        }
+        return retList;
     }
 
 
     /**
      * 导出日志分析结果
      */
-    public static void exportExcel(){
-        List<String> list = ReadTxtFileUtils.readTxt(new File("E:\\secureCRT_file\\download\\out.txt"));
+    public static void exportExcel(String... files){
+        List<String> list = getFileList(files);
         List<MatchResult> retList = Lists.newArrayList();
         for(String str:list){
             if(str.indexOf(matchList.get(0)) != -1){
@@ -146,13 +234,12 @@ public class FindNluLogTest {
 
         String[] headers = {"时间", "请求文本", "requestId", "是否成功", "nlu请求", "nlu结果"};
         String[] properties = {"timeStr", "reqTxt", "requestId", "success", "nluUrl", "nluRet"};
-        String filePath = "E:\\secureCRT_file\\download\\out4";
 
 //        List<MatchResult> filterList = retList.stream().filter(r-> {
 //            Date d = DateUtil.parseDate(r.getTime(), pattern);
 //            return d.compareTo(start) >=0 && d.compareTo(end) <=0;
 //        }).collect(Collectors.toList());
-        ExcelExportUtil.export(headers, properties, retList, false, filePath);
+        ExcelExportUtil.export(headers, properties, retList, false, out_path);
     }
 
     @Data
