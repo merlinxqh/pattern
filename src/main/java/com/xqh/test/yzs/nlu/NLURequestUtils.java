@@ -29,8 +29,8 @@ public class NLURequestUtils {
 
     private final static String appSecret = "ea5d2f4793aa48dfdb67d29aae506843";
 
-    private final static String nluUrl = "http://scv2.sh.hivoice.cn:80/service/iss";
-//    private final static String nluUrl = "http://route.igaicloud.cn:8088/service/iss";
+//    private final static String nluUrl = "http://scv2.sh.hivoice.cn:80/service/iss";
+    private final static String nluUrl = "http://route.igaicloud.cn:8088/service/iss";
 
     /**
      * 执行 nlu 请求线程

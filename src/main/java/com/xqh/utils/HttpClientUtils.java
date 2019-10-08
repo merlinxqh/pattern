@@ -43,7 +43,7 @@ public abstract class HttpClientUtils {
             .setDefaultRequestConfig(RequestConfig.custom()
                     .setConnectTimeout(10000)         //连接超时时间(ms)
                     .setSocketTimeout(10000)          //读超时时间（等待数据超时时间）(ms)
-                    .setConnectionRequestTimeout(500)    //从池中获取连接超时时间(ms)
+                    .setConnectionRequestTimeout(5000)    //从池中获取连接超时时间(ms)
                     .build())
             .setConnectionManager(new PoolingHttpClientConnectionManager() {{
                 setMaxTotal(200);//最大连接数

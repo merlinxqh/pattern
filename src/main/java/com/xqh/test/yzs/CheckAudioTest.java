@@ -1,6 +1,7 @@
 package com.xqh.test.yzs;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONPath;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sun.media.jfxmedia.logging.Logger;
@@ -25,55 +26,51 @@ import java.util.concurrent.FutureTask;
  */
 public class CheckAudioTest {
 
-    private final static String tmp_path = "E:\\secureCRT_file\\download\\世茂一个月数据\\";
+    private final static String tmp_path = "E:\\secureCRT_file\\download\\数据分析\\";
 
     private final static String filter_str = "----";
 
     public static void main(String[] args) {
-        String str = "asdfa/asdfg/asdfasdfgggg.jpg";
-        System.out.println(str.substring(str.lastIndexOf("/")));
-    }
-
-    public static void main22(String[] args) {
-
-        List<String> errorData = Lists.newArrayList();
 //
-        wrapperMethod("2019-08-05", errorData);
-        wrapperMethod("2019-08-04", errorData);
-        wrapperMethod("2019-08-03", errorData);
-        wrapperMethod("2019-08-02", errorData);
-        wrapperMethod("2019-08-01", errorData);
-        wrapperMethod("2019-07-31", errorData);
-        wrapperMethod("2019-07-30", errorData);
-        wrapperMethod("2019-07-29", errorData);
-        wrapperMethod("2019-07-28", errorData);
-        wrapperMethod("2019-07-27", errorData);
-        wrapperMethod("2019-07-26", errorData);
-        wrapperMethod("2019-07-25", errorData);
-        wrapperMethod("2019-07-24", errorData);
-        wrapperMethod("2019-07-23", errorData);
-        wrapperMethod("2019-07-22", errorData);
-        wrapperMethod("2019-07-21", errorData);
-        wrapperMethod("2019-07-20", errorData);
-        wrapperMethod("2019-07-19", errorData);
-        wrapperMethod("2019-07-18", errorData);
-        wrapperMethod("2019-07-17", errorData);
-        wrapperMethod("2019-07-16", errorData);
-        wrapperMethod("2019-07-15", errorData);
-        wrapperMethod("2019-07-14", errorData);
-        wrapperMethod("2019-07-13", errorData);
-        wrapperMethod("2019-07-12", errorData);
-        wrapperMethod("2019-07-11", errorData);
-        wrapperMethod("2019-07-10", errorData);
-        wrapperMethod("2019-07-09", errorData);
+//        List<String> errorData = Lists.newArrayList();
+////
+//        wrapperMethod("2019-09-07", errorData);
+//        wrapperMethod("2019-09-08", errorData);
+//        wrapperMethod("2019-09-09", errorData);
+//        wrapperMethod("2019-09-10", errorData);
 
-        System.out.println("error data "+ JSON.toJSONString(errorData));
 
+//        wrapperMethod("2019-08-07", errorData);
+//        wrapperMethod("2019-08-08", errorData);
+//        wrapperMethod("2019-08-09", errorData);
+//        wrapperMethod("2019-08-10", errorData);
+//        wrapperMethod("2019-08-11", errorData);
+//        wrapperMethod("2019-08-12", errorData);
+//        wrapperMethod("2019-08-13", errorData);
+//        wrapperMethod("2019-08-14", errorData);
+//        wrapperMethod("2019-08-15", errorData);
+//        wrapperMethod("2019-08-06", errorData);
+//        wrapperMethod("2019-08-16", errorData);
+//        wrapperMethod("2019-08-17", errorData);
+//        wrapperMethod("2019-08-18", errorData);
+//        wrapperMethod("2019-08-19", errorData);
+//        wrapperMethod("2019-08-20", errorData);
+//        wrapperMethod("2019-08-21", errorData);
+//        wrapperMethod("2019-08-22", errorData);
+//        wrapperMethod("2019-08-23", errorData);
+//        wrapperMethod("2019-08-24", errorData);
+//        wrapperMethod("2019-08-25", errorData);
+//        wrapperMethod("2019-08-26", errorData);
+//        wrapperMethod("2019-08-27", errorData);
+
+//        System.out.println("error data "+ JSON.toJSONString(errorData));
+        String abc = "{\"name\":\"ddd\"}";
+        System.out.println(JSONPath.read(abc,"$.nfame").toString());
     }
 
     public static void wrapperMethod(String date, List<String> errorData){
         findNotExistsAudio(date+"\\mp3",
-                date+"\\audio.xlsx", errorData, date+"\\"+date+"_new");
+                date+"\\"+date+".xlsx", errorData, date+"\\"+date+"_new");
     }
 
     public static void findNotExistsAudio(String filePath, String excelPath, List<String> errorData, String newExcelName){
@@ -87,15 +84,16 @@ public class CheckAudioTest {
                 Map<String, Object> map = Maps.newHashMap();
                 String text = array[0];
                 map.put("text", text);
-                map.put("udid", array[1]);
-                map.put("mp3", array[2]);
-                map.put("date", array[3]);
-                if(!fileList.contains(array[2])){
-                    errorData.add(array[2]);
+                map.put("udid", array[2]);
+                map.put("mp3", array[3]);
+                map.put("date", array[4]);
+                if(!fileList.contains(array[3])){
+                    errorData.add(array[3]);
                 }else{
                     newExcel.add(map);
                     if(!text.equals(filter_str)){
-                        FutureTask<String> future = new FutureTask<>(new ReqNluThread(text));
+                        String reqText = text.startsWith("小茂小茂")?(text.substring(4)):text;
+                        FutureTask<String> future = new FutureTask<>(new ReqNluThread(reqText));
                         ThreadPoolUtils.submit(future);
                         map.put("future", future);
                     }else {

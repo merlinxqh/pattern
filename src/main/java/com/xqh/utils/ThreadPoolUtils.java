@@ -10,7 +10,7 @@ public class ThreadPoolUtils {
 
     private static ExecutorService executor;
 
-    private static final int COOL_SIZE=5;//核心线程数量
+    private static final int COOL_SIZE=10;//核心线程数量
 
     private static final int MAX_SIZE=50;//最大线程数量
 
