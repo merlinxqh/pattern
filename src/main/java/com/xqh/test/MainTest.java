@@ -30,6 +30,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
@@ -137,7 +138,11 @@ public class MainTest {
     }
 
     public static void main(String[] args) {
-        System.out.println(IdWorker.get32UUID());
+//        System.out.println(IdWorker.get32UUID());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis()-1000*60);
+        System.out.println(timestamp.getTime());
+        System.out.println(System.currentTimeMillis());
+
 //        String str = "我是一个兵";
 //        String unicode = "\\u597D\\u7684\\uFF0C\\u5DF2\\u4E3A\\u60A8\\u8054\\u7CFB\\u524D\\u53F0";
 //        try {
