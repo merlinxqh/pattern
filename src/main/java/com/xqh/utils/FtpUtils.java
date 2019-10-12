@@ -148,6 +148,9 @@ public class FtpUtils {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        
+        File file = new File("E:\\secureCRT_file\\upload\\text.txt");
+        boolean ret = uploadFile("114.67.123.28", "ftp_cmbc", "123456", 2112, "packge/qianghui/", "text3.txt",
+                new FileInputStream(file));
+        System.out.println(ret);
     }
 }
